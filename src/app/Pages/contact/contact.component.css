@@ -1,0 +1,35 @@
+.form-btn{
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 50px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* .form-container{
+    border-radius: 12px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+} */
+
+.hero{
+    height: 40vh;
+    background-color: var(--primary-color);
+}
+
+.dark-col{
+    background-color: var(--primary-color);
+    border-radius: 0  12px 12px 0;;
+}
+
+span{
+    color: white;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+
+i{
+    color: white;
+    font-size: 22px;
+}

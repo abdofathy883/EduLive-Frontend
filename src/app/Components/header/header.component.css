@@ -1,0 +1,29 @@
+a{
+    text-decoration: none;
+}
+
+.login{
+    background-color: white;
+    border-radius: 12px;
+    padding: 10px 20px;
+    border: solid 2px var(--primary-color);
+    color: var(--primary-color);
+
+    &:hover{
+        background-color: var(--secondary-color);
+        color: var(--secondary-color);
+    }
+}
+
+.register{
+    background-color: var(--primary-color);
+    border-radius: 12px;
+    padding: 10px 20px;
+    border: solid 2px var(--primary-color);
+    color: white;
+}
+
+.active{
+    color: var(--primary-color);
+}
+  

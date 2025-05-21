@@ -1,0 +1,111 @@
+<section
+  class="hero d-flex align-items-center justify-content-center flex-column"
+>
+  <div class="container">
+    <h1>سجل حساب جديد</h1>
+    <p>ابدا رحلة تعلم القراءن الكريم اونلاين</p>
+  </div>
+</section>
+<section class="container mb-5">
+  <form action="" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <div class="row mb-3">
+      <div class="col">
+        <label for="first-name" class="form-label">الاسم الاول</label>
+        <input
+          type="text"
+          class="form-control"
+          id="first-name"
+          placeholder="الاسم الاول"
+          formControlName="firstName"
+        />
+        @if (registrationForm.get("firstName")?.invalid &&
+        registrationForm.get("firstName")?.touched) {
+        <small class="text-danger">الاسم الاول مطلوب</small>
+        }
+      </div>
+      <div class="col">
+        <label for="last-name" class="form-label">الاسم الاخير</label>
+        <input
+          type="text"
+          class="form-control"
+          id="last-name"
+          placeholder="الاسم الاخير"
+          formControlName="lastName"
+        />
+        @if (registrationForm.get("lastName")?.invalid &&
+        registrationForm.get("lastName")?.touched) {
+        <small class="text-danger">الاسم الاخير مطلوب</small>
+        }
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="email" class="form-label">البريد الالكتروني</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="البريد الالكتروني"
+          formControlName="email"
+        />
+        @if (registrationForm.get("email")?.invalid &&
+        registrationForm.get("email")?.touched) {
+        <small class="text-danger">البريد الالكتروني مطلوب</small>
+        }
+      </div>
+      <div class="col">
+        <label for="phone" class="form-label">الهاتف</label>
+        <input
+          type="text"
+          class="form-control"
+          id="phoneNumber"
+          placeholder="الهاتف"
+          formControlName="phoneNumber"
+        />
+        @if (registrationForm.get("phoneNumber")?.invalid &&
+        registrationForm.get("phoneNumber")?.touched) {
+        <small class="text-danger">الهاتف مطلوب</small>
+        }
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="dateOfBirth" class="form-label">تاريخ الميلاد</label>
+        <input
+          type="date"
+          class="form-control"
+          id="dateOfBirth"
+          formControlName="dateOfBirth"
+        />
+      </div>
+      <div class="col">
+        <label for="password" class="form-label">كلمة المرور</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          formControlName="password"
+        />
+        @if (registrationForm.get("password")?.invalid &&
+        registrationForm.get("password")?.touched) {
+        <small class="text-danger">الرقم السري مطلوب</small>
+        }
+      </div>
+      <input
+        type="password"
+        formControlName="confirmPassword"
+        id="confirmPassword"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="loading">
+      @if (!loading) { تسجيل حساب جديد } @else {
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      جاري التسجيل... }
+    </button>
+  </form>
+</section>

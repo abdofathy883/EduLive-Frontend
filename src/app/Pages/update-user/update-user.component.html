@@ -1,0 +1,78 @@
+<section class="my-3">
+  <form action="">
+    <div class="row mb-3">
+      <div class="col">
+        <label for="firstName" class="form-label">الاسم الاول</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          formControlName="firstName"
+        />
+      </div>
+      <div class="col">
+        <label for="lastName" class="form-label">الاسم الاخير</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          formControlName="lastName"
+        />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="phone" class="form-label">الهاتف</label>
+        <input
+          type="phone"
+          class="form-control"
+          id="phone"
+          formControlName="phone"
+        />
+      </div>
+      <div class="col">
+        <label for="email" class="form-label">البريد الالكتروني</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+        />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="password" class="form-label">الرقم السري</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          formControlName="password"
+        />
+      </div>
+      <div class="col">
+        <label for="intro-video" class="form-label">الفيديو التعريفي</label>
+        <input
+          type="file"
+          class="form-control"
+          id="intro-video"
+          formControlName="introVideo"
+        />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="bio" class="form-label">نبذه</label>
+      <textarea
+        name="bio"
+        id="bio"
+        class="form-control"
+        formControlName="bio"
+      ></textarea>
+    </div>
+
+    <input type="submit" value="تعديل" class="btn btn-primary" />
+  </form>
+</section>

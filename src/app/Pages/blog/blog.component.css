@@ -1,0 +1,12 @@
+a{
+    text-decoration: none;
+}
+.page-link{
+    cursor: pointer;
+
+}
+
+.hero{
+    background-color: var(--primary-color);
+    height: 30vh;
+}

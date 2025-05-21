@@ -1,0 +1,9 @@
+.hero{
+    height: 30vh;
+}
+.form-btn{
+    border: none;
+    padding: 8px 50px;
+    border-radius: 12px;
+    background-color: var(--primary-color);
+}

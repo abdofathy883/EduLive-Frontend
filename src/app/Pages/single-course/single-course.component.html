@@ -1,0 +1,93 @@
+<section class="container pt-5">
+  <div class="row">
+    <div class="col-4">
+      <!-- <div>
+        <a href="">
+          <i class="bi bi-heart me-3"></i>
+          <span>اضف الى قائمة الامنيات</span>
+        </a>
+      </div> -->
+      <h3>التصنيف: {{category?.title}}</h3>
+      <h5>عدد الحصص {{ course?.nuOfLessons}}</h5>
+      @if(course?.salePrice){
+        <p class="text-center pt-3">السعر بعد الخصم: {{ course?.salePrice }}$</p>
+      }
+      <p class="text-center pt-3">سعر الاشتراك: {{ course?.originalPrice }}$</p>
+      <a href="" class="subscribe-btn">اشترك الان</a>
+    </div>
+    <div class="col-8">
+      <h1>{{ course?.title }}</h1>
+      <p>{{ course?.description }}</p>
+      <img src="/assets/minimalism4.jpg" width="100%" height="350px" alt="" />
+      <img [src]="course?.courseImage" width="100%" height="350px" alt="" />
+      <div class="row">
+        <div class="col-4">
+          <p>
+            المعلم <br />
+            {{ instructor?.firstName }} {{ instructor?.lastName }}
+          </p>
+        </div>
+        <div class="col-4">
+          <p>
+            عدد المشتركين <br />
+            5000
+          </p>
+        </div>
+        <div class="col-4"></div>
+      </div>
+      <div class="mt-4">
+        <!-- Tabs navigation -->
+        <ul class="nav nav-tabs" id="courseTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="course-description-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#course-description"
+              type="button"
+              role="tab"
+              aria-controls="course-description"
+              aria-selected="true"
+            >
+              وصف الدورة
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="course-reviews-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#course-reviews"
+              type="button"
+              role="tab"
+              aria-controls="course-reviews"
+              aria-selected="false"
+            >
+              المراجعات
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tab content -->
+        <div class="tab-content mt-3" id="courseTabsContent">
+          <div
+            class="tab-pane fade show active"
+            id="course-description"
+            role="tabpanel"
+            aria-labelledby="course-description-tab"
+          >
+            <p>{{ course?.description }}</p>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="course-reviews"
+            role="tabpanel"
+            aria-labelledby="course-reviews-tab"
+          >
+            <p>reviews</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

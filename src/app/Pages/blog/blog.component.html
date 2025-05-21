@@ -1,0 +1,38 @@
+<section class="hero d-flex justify-content-center align-items-center">
+  <h1>احدث المقالات</h1>
+</section>
+<section class="container">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 my-4">
+    @for (post of pagedBlogs; track $index) {
+    <div class="col" (click)="goToPost(post.id)">
+        <div class="card">
+          <img [src]="post.image" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h3 class="card-title">{{ post.title }}</h3>
+            <p class="card-text">{{ post.description }}</p>
+          </div>
+        </div>
+    </div>
+    }
+  </div>
+
+ @if (totalPages > 1) {
+  <nav>
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)">السابق</a>
+      </li>
+
+      @for (page of pageNumbers(); track page) {
+        <li class="page-item" [class.active]="currentPage === page">
+          <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+        </li>
+      }
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">التالي</a>
+      </li>
+    </ul>
+  </nav>
+}
+</section>

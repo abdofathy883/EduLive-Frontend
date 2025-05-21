@@ -1,0 +1,134 @@
+<section class="container">
+  <form action="" [formGroup]="instructorForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
+    <div class="row mb-3">
+      <div class="col">
+        <label for="first-name" class="form-label">الاسم الاول</label>
+        <input
+          type="text"
+          class="form-control"
+          id="first-name"
+          formControlName="firstName"
+        />
+        @if (instructorForm.get("firstName")?.invalid &&
+        instructorForm.get("firstName")?.touched) {
+        <small class="text-danger">الاسم الاول مطلوب</small>
+        }
+      </div>
+      <div class="col">
+        <label for="last-name" class="form-label">الاسم الاخير</label>
+        <input
+          type="text"
+          class="form-control"
+          id="last-name"
+          formControlName="lastName"
+        />
+        @if (instructorForm.get("lastName")?.invalid &&
+        instructorForm.get("lastName")?.touched) {
+        <small class="text-danger">الاسم الاخير مطلوب</small>
+        }
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="phone" class="form-label">الهاتف</label>
+        <input
+          type="tel"
+          class="form-control"
+          id="phone"
+          formControlName="phoneNumber"
+        />
+        @if (instructorForm.get("phoneNumber")?.invalid &&
+        instructorForm.get("phoneNumber")?.touched) {
+        <small class="text-danger">الهاتف مطلوب</small>
+        }
+      </div>
+      <div class="col">
+        <label for="email" class="form-label">البريد الالكتروني</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+        />
+        @if (instructorForm.get("email")?.invalid &&
+        instructorForm.get("email")?.touched) {
+        <small class="text-danger">البريد الالكتروني مطلوب</small>
+        }
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="cv" class="form-label">السيرة الذاتية</label>
+        <input
+          type="file"
+          accept=".pdf"
+          class="form-control"
+          id="cv"
+          formControlName="CV"
+          (change)="onFileChange($event, 'CV')"
+        />
+      </div>
+      <div class="col">
+        <label for="video" class="form-label">فيديو تعريفي</label>
+        <input
+          type="file"
+          class="form-control"
+          id="video"
+          formControlName="introVideo"
+          (change)="onFileChange($event, 'introVideo')"
+        />
+      </div>
+    </div>
+    <div class="row mb-3">
+        <label for="bio" class="form-label">ff
+            <textarea
+                class="form-control"
+                id="bio"
+                rows="3"
+                formControlName="bio"
+            ></textarea>
+        </label>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="birthdate" class="form-label">تاريخ الميلاد</label>
+        <input
+          type="date"
+          class="form-control"
+          id="birthdate"
+          formControlName="dateOfBirth"
+        />
+      </div>
+      <div class="col">
+        <label for="password" class="form-label">كلمة المرور</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          formControlName="password"
+        />
+        @if (instructorForm.get("password")?.invalid &&
+        instructorForm.get("password")?.touched) {
+        <small class="text-danger">كلمة المرور مطلوبة</small>
+        }
+      </div>
+    </div>
+    <!-- <button type="submit" class="btn btn-primary" [disabled]="loading">
+        @if (!loading) {
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          جار ارسال الطلب...
+        } @else {
+          <span>ارسال</span>
+        }
+    </button> -->
+    <button type="submit" class="btn btn-primary" [disabled]="loading">
+      @if (!loading) { ارسال} @else {
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      جاري ارسال الطلب... }
+    </button>
+  </form>
+</section>

@@ -1,0 +1,44 @@
+.old-price{
+      text-decoration: line-through;
+      color: #999;
+}
+a{
+      text-decoration: none;
+}
+
+.nav-button{
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 1.5rem;
+}
+
+.swiper-navigation-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Space between slider and buttons */
+    gap: 20px; /* Space between the buttons */
+}
+
+.swiper-button-prev, .swiper-button-next {
+    position: static; /* Override Swiper's default absolute positioning */
+    margin: 0; /* Reset any margins */
+    transform: none; /* Reset any transforms */
+    width: 40px;
+    height: 40px;
+    padding: 15px;
+    border: solid 2px var(--primary-color);
+    margin-left: 15px;
+    color: var(--primary-color);
+}
+
+/* Optional: Style the buttons to make them more visible */
+.swiper-button-prev:after, .swiper-button-next:after {
+    font-size: 20px;
+    color: #333;
+}

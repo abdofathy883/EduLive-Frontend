@@ -1,0 +1,32 @@
+.box1, .box3{
+    background-color: var(--primary-color);
+}
+
+.sec2{
+    height: 60vh;
+}
+
+.abs-img{
+    position: absolute;
+    left: 50px;
+}
+i{
+    color: var(--primary-color);
+    font-size: 25px;
+}
+a{
+    text-decoration: none;
+}
+
+.card3, .card2{
+    background-image: linear-gradient(to Right, var(--primary-color), var(--secondary-color));
+}
+
+.button{
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 600;
+}

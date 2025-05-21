@@ -1,0 +1,57 @@
+<header class="container py-3">
+    <div class="row align-items-center justify-content-between">
+        <!-- Logo -->
+        <div class="col-lg-2 col-md-3 col-sm-4">
+            <a class="d-block" href="">
+                <img src="/assets/Logo.webp" class="img-fluid" style="max-width: 100px;" alt="Tahfez Quran Academy Logo">
+            </a>
+        </div>
+
+        <!-- Search -->
+        <!-- <div class="col-lg-3 col-md-4 col-sm-8">
+            <form class="d-flex" role="search">
+                <input type="search" class="form-control me-2" aria-label="search" placeholder="بحث">
+                <button class="btn btn-outline-success" type="submit">بحث</button>
+            </form>
+        </div> -->
+
+        <!-- Navigation -->
+        <div class="col-lg-4 col-md-12 mt-md-3 mt-lg-0">
+            <nav class="navbar p-0">
+                <ul class="navbar-nav flex-row justify-content-around w-100">
+                    <li class="nav-item">
+                        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}" class="nav-link">الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a routerLink="/courses" routerLinkActive="active" class="nav-link">الدورات التعليمية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a routerLink="/blog" routerLinkActive="active" class="nav-link">المدونة</a>
+                    </li>
+                    <li class="nav-item">
+                        <a routerLink="/contact" routerLinkActive="active" class="nav-link">تواصل معنا</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Auth Buttons -->
+        <div class="col-lg-3 col-md-12 mt-md-3 mt-lg-0 text-end">
+            <div class="d-flex align-items-center justify-content-end gap-3">
+                @if (!isLoggedIn) {
+                    <a routerLink="/register" class="btn btn-outline-primary register">حساب جديد</a>
+                    <a routerLink="/login" class="btn btn-primary login">تسجيل دخول</a>
+                }
+                @if (isLoggedIn) {
+                    <a routerLink="/my-account" class="text-decoration-none">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-person-circle fs-4"></i>
+                            <span class="ms-2">حسابي</span>
+                        </div>
+                    </a>
+
+                }
+            </div>
+        </div>
+    </div>
+</header>

@@ -9,7 +9,8 @@ import { FormBuilder } from '@angular/forms';
   styleUrl: './update-user.component.css'
 })
 export class UpdateUserComponent {
-  private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   loading: boolean = false;
+
+  constructor(private authService: AuthService) { }
 }

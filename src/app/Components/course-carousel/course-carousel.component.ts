@@ -28,6 +28,7 @@ export class CourseCarouselComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.courseService.getAllCourses().subscribe((courses) => {
       this.courses = courses;
+      console.log(courses);
     });
   }
   ngAfterViewInit(): void {

@@ -7,7 +7,7 @@ import { ZoomUserConnection } from '../../../Models/Zoom/zoom';
   providedIn: 'root'
 })
 export class AuthZoomService {
-  private baseUrl = '';
+  private baseUrl = 'http://localhost:5153/api/ZoomAuth';
   constructor(private http: HttpClient) { }
 
   getAuthorizationUrl(): Observable<{ url: string }> {

@@ -24,20 +24,9 @@ export class CourseCarouselComponent implements AfterViewInit, OnInit {
   private courseService = inject(CoursesService);
   @Output() openCourse = new EventEmitter<number>();
   courses: any[] = [];
-  // courses = Array.from({ length: 10 }, (_, i) => ({
-  //   id: i + 1,
-  //   title: `Course Title ${i + 1}`,
-  //   category: `Category ${i + 1}`,
-  //   lessons: 8,
-  //   price: 250,
-  //   oldPrice: 350,
-  //   image: '/assets/minimalism4.jpg'
-  // }));
 
   ngOnInit(): void {
     this.courseService.getAllCourses().subscribe((courses) => {
-      console.log(courses);
-      console.log('Courses:', courses);
       this.courses = courses;
     });
   }

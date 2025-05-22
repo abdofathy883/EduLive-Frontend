@@ -19,7 +19,7 @@ export class CoursesService {
     return this.http.get<NewCourse[]>(this.apiUrl + `/enrolled-course/${studentId}`);
   }
 
-  getInstructorCourses(instructorId: number): Observable<NewCourse[]> {
+  getInstructorCourses(instructorId: string): Observable<NewCourse[]> {
     return this.http.get<NewCourse[]>(this.apiUrl + `/owned-course/${instructorId}`);
   }
 

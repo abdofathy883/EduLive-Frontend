@@ -39,6 +39,7 @@
             id="phone"
             placeholder="الهاتف"
             #phoneInput
+            
           />
         </div>
         <div class="mb-3">
@@ -59,6 +60,14 @@
             rows="3"
           ></textarea>
         </div>
+        <button type="submit" class="form-btn">
+          @if (loading) {
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            جار الارسال...
+          } @else {
+            <span>ارسال</span>
+          }
+        </button>
         <input type="submit" class="form-btn" value="ارسال" />
       </form>
     </div>

@@ -16,8 +16,8 @@
           <h5>{{ course.price }}</h5>
           <h5 class="old-price">{{ course.oldPrice }}</h5>
         </div>
-  
-        <a class="nav-button" (click)="goToCourse(course.id)">عرض الدورة</a>
+
+        <a class="nav-button" [routerLink]="['/single-course', course.id]">عرض الدورة</a>
       </div>
     </div>
     }

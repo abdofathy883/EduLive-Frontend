@@ -1,5 +1,15 @@
 <section class="my-3">
-  <form action="">
+  @if (errorMessage) {
+    <div class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+  }
+  @if (successMessage) {
+    <div class="alert alert-success" role="alert">
+      {{ successMessage }}
+    </div>
+  }
+  <form action="" [formGroup]="updateForm" (ngSubmit)="onSubmit()">
     <div class="row mb-3">
       <div class="col">
         <label for="firstName" class="form-label">الاسم الاول</label>
@@ -73,6 +83,13 @@
       ></textarea>
     </div>
 
-    <input type="submit" value="تعديل" class="btn btn-primary" />
+    <button type="submit" class="btn btn-primary">
+      @if (loading) {
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        جار التحميل...
+      } @else {
+        تعديل
+      }
+    </button>
   </form>
 </section>

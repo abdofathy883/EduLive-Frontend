@@ -4,7 +4,6 @@ export interface RegisterStudent {
   email: string;
   phoneNumber: string;
   password: string;
-  confirmPassword: string;
   dateOfBirth: string;
 }
 
@@ -27,6 +26,15 @@ export interface RegisterInstructor {
 export interface UserLogin {
   email: string;
   password: string;
+}
+
+export interface UpdateUser {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export interface AuthResponse {

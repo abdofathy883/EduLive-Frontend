@@ -8,6 +8,7 @@ import { AddZoomLessonComponent } from '../add-zoom-lesson/add-zoom-lesson.compo
 import { AddMeetLessonComponent } from '../add-meet-lesson/add-meet-lesson.component';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { CoursesService } from '../../Services/Courses/courses.service';
 
 @Component({
   selector: 'app-my-account',
@@ -23,15 +24,29 @@ import { Router } from '@angular/router';
   styleUrl: './my-account.component.css',
 })
 export class MyAccountComponent implements OnInit, OnDestroy {
-  private authService = inject(AuthService);
-  private router = inject(Router);
   currentUser: any = null;
   userRole: string = '';
+  instructorCourses: any[] = [];
   private userSubscription: Subscription | null = null;
+  private courseSubscription: Subscription | null = null;
+  isApproved: boolean = false;
+
+  constructor(
+    private authService: AuthService,
+    private courseService: CoursesService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUser = this.authService.currentUser$.subscribe((user) => {
+      this.currentUser = user;
+      if (this.currentUser.isApproved === true) {
+        this.isApproved = true;
+      }
+    });
+
     const token = localStorage.getItem('token');
+    
     if (!this.currentUser || !token) {
       this.router.navigate(['/login']);
       return;
@@ -46,13 +61,39 @@ export class MyAccountComponent implements OnInit, OnDestroy {
 
     this.userSubscription = this.authService.currentUser$.subscribe((user) => {
       this.currentUser = user;
+      if (user && user.id) {
+        this.loadInstructorCourses(user.id);
+      }
     });
+    if (this.currentUser && this.currentUser.id) {
+      this.loadInstructorCourses(this.currentUser.id);
+      console.log('Courses:', this.instructorCourses);
+    }
   }
+
+  loadInstructorCourses(instructorId: string) {
+    this.courseSubscription = this.courseService
+      .getInstructorCourses(instructorId)
+      .subscribe({
+        next: (courses) => {
+          this.instructorCourses = courses;
+          console.log('Instructor Courses:', this.instructorCourses);
+        },
+        error: (error) => {
+          console.error('Error loading instructor courses:', error);
+        },
+      });
+  }
+
   ngOnDestroy(): void {
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }
+    if (this.courseSubscription) {
+      this.courseSubscription.unsubscribe();
+    }
   }
+
   logOut() {
     this.authService.logOut();
   }

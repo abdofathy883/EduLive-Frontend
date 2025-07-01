@@ -19,9 +19,9 @@ import { th } from 'intl-tel-input/i18n';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  constructor(private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router) {}
 
   loading: boolean = false;
 
@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.required],
       password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+      // confirmPassword: ['', Validators.required],
       dateOfBirth: [''],
     });
   }
@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit {
         email: this.registrationForm.value.email,
         phoneNumber: this.registrationForm.value.phoneNumber,
         password: this.registrationForm.value.password,
-        confirmPassword: this.registrationForm.value.confirmPassword,
+        // confirmPassword: this.registrationForm.value.password, // Assuming confirmPassword is same as password
         dateOfBirth: this.registrationForm.value.dateOfBirth,
       };
 
@@ -66,14 +66,17 @@ export class RegisterComponent implements OnInit {
         next: (response) => {
           this.loading = false;
           if (response) {
+            console.log("Registered successfully:", response);
             this.router.navigate(['/login']);
           }
         },
         error: (error) => {
+          console.error("Registration failed:", error);
           this.loading = false;
         },
       });
     } catch (error) {
+      console.error("An error occurred:", error);
       this.loading = false;
     }
   }

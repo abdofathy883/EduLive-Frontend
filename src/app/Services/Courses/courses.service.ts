@@ -8,23 +8,18 @@ import { Observable } from 'rxjs';
 })
 export class CoursesService {
   private apiUrl = 'http://localhost:5153/api/Courses';
+  private apiUrlCategory = 'http://localhost:5153/api/Category';
 
-  private http = inject(HttpClient);
+  constructor(private http: HttpClient) { }
+
+  // Course related methods
 
   getAllCourses(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + "/all-courses");
   }
 
-  getStudentCourses(studentId: number): Observable<NewCourse[]> {
-    return this.http.get<NewCourse[]>(this.apiUrl + `/enrolled-course/${studentId}`);
-  }
-
-  getInstructorCourses(instructorId: string): Observable<NewCourse[]> {
-    return this.http.get<NewCourse[]>(this.apiUrl + `/owned-course/${instructorId}`);
-  }
-
-  getInstructorById(instructorId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/get-instructor/${instructorId}`);
+  getCourseById(courseId: number): Observable<NewCourse> {
+    return this.http.get<NewCourse>(`${this.apiUrl}/get-course/${courseId}`);
   }
 
   addCourse(course: NewCourse): Observable<NewCourse> {
@@ -52,7 +47,26 @@ export class CoursesService {
     return this.http.delete<void>(this.apiUrl + "/delete-course");
   }
 
+  // Student related methods
+  getStudentCourses(studentId: number): Observable<NewCourse[]> {
+    return this.http.get<NewCourse[]>(this.apiUrl + `/enrolled-course/${studentId}`);
+  }
+
+  // Instructor related methods
+  getInstructorCourses(instructorId: string): Observable<NewCourse[]> {
+    return this.http.get<NewCourse[]>(this.apiUrl + `/owned-course/${instructorId}`);
+  }
+
+  getInstructorById(instructorId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/get-instructor/${instructorId}`);
+  }
+
+  // Category related methods
   getAllCategories(): Observable<string[]> {
-    return this.http.get<string[]>(this.apiUrl + "/all-categories");
+    return this.http.get<string[]>(this.apiUrlCategory + "/all-categories");
+  }
+
+  getCategoryById(categoryId: number): Observable<string> {
+    return this.http.get<string>(`${this.apiUrlCategory}/get-category/${categoryId}`);
   }
 }

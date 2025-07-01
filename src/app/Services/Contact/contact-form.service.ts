@@ -6,11 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ContactFormService {
-  // private apiUrl = '';
-  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:5153/api/ContactForm/submit-contact-form';
+  constructor(private http: HttpClient) { }
 
-  // sendEntry(formData: FormData): Observable<any> {
-  //   return this.http.post(this.apiUrl, formData);
-  // }
-  
+  sendEntry(formData: FormData): Observable<any> {
+    return this.http.post(this.apiUrl, formData);
+  }
 }

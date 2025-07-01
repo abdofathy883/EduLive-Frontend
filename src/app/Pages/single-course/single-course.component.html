@@ -13,7 +13,7 @@
         <p class="text-center pt-3">السعر بعد الخصم: {{ course?.salePrice }}$</p>
       }
       <p class="text-center pt-3">سعر الاشتراك: {{ course?.originalPrice }}$</p>
-      <a href="" class="subscribe-btn">اشترك الان</a>
+      <button class="subscribe-btn" (click)="PurchaseCourse(paymentData)">اشترك الان</button>
     </div>
     <div class="col-8">
       <h1>{{ course?.title }}</h1>

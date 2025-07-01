@@ -16,10 +16,11 @@ import { UserLogin } from '../../Models/User/user';
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit {
-  private authService = inject(AuthService);
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
-
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {}
   loading: Boolean = false;
 
   loginForm!: FormGroup;

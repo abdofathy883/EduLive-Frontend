@@ -1,0 +1,28 @@
+<form class="row mb-3" (ngSubmit)="submit()">
+    <div class="mb-3">
+        <label class="form-label">قيم الدورة</label>
+        <br>
+        @for (star of [1, 2, 3, 4, 5]; track star) {
+            <span>
+                <i class="bi" (click)="setRating(star)" 
+                    [ngClass]="star <= rating ? 'bi-star-fill text-warning' : 'bi-star'"
+                    style="cursor:pointer; font-size: 1.2rem; padding-left: 8px;">
+                </i>
+            </span>
+        }
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="comment">اكتب مراجعتك</label>
+        <textarea class="form-control" id="comment" rows="3" 
+            [(ngModel)]="comment" name="comment"></textarea>
+    </div>
+
+    @if (isLoading) {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">جار الارسال...</span>
+        </div>
+    } @else {
+        <button type="submit" class="btn btn-primary mt-2" (click)="submit()">إرسال</button>
+    }
+</form>

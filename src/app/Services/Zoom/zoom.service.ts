@@ -7,10 +7,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ZoomService {
-  private http = inject(HttpClient);
   private apiUrl = '';
   private authApiUrl = '';
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   createZoomMeeting(meetingData: CreateZoomMeetingRequest): Observable<ZoomMeeting> {
     return this.http.post<ZoomMeeting>(this.apiUrl, meetingData);
@@ -22,5 +21,21 @@ export class ZoomService {
 
   disconnectZoomAccount(): Observable<void> {
     return this.http.post<void>(`${this.authApiUrl}/disconnect`, {});
+  }
+
+  GetMeetingById(meetingId: string): Observable<ZoomMeeting> {
+    return this.http.get<ZoomMeeting>(`${this.apiUrl}/${meetingId}`);
+  }
+
+  GetMeetingsByCourseId(courseId: string): Observable<ZoomMeeting[]> {
+    return this.http.get<ZoomMeeting[]>(`${this.apiUrl}/course/${courseId}`);
+  }
+
+  GetMeetingsByInstructorId(instructorId: string): Observable<ZoomMeeting[]> {
+    return this.http.get<ZoomMeeting[]>(`${this.apiUrl}/instructor/${instructorId}`);
+  }
+
+  GetMeetingsByStudentId(studentId: string): Observable<ZoomMeeting[]> {
+    return this.http.get<ZoomMeeting[]>(`${this.apiUrl}/student/${studentId}`);
   }
 }

@@ -6,19 +6,22 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CoursesService } from '../../Services/Courses/courses.service';
 import { NewCourse } from '../../Models/Course/course';
 import { AuthService } from '../../Services/Auth/auth.service';
+import { CourseReviewsComponent } from "../../Components/course-reviews/course-reviews.component";
 
 @Component({
   selector: 'app-single-course',
-  imports: [],
+  imports: [CourseReviewsComponent],
   templateUrl: './single-course.component.html',
   styleUrl: './single-course.component.css',
 })
 export class SingleCourseComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private coursesService = inject(CoursesService);
-  private paymentService = inject(PaymentService);
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  constructor(private route: ActivatedRoute,
+                private router: Router,
+                private coursesService: CoursesService,
+                private authService: AuthService,
+                private paymentService: PaymentService
+  ) {}
+  
   currentUser: any = null;
   // slug!: string;
   course!: any; // Replace 'any' with the appropriate type if known

@@ -1,16 +1,22 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
-  Validator,
 } from '@angular/forms';
 import { AuthService } from '../../Services/Auth/auth.service';
 import { Router } from '@angular/router';
 import { RegisterStudent } from '../../Models/User/user';
-import { th } from 'intl-tel-input/i18n';
+import intlTelInput from 'intl-tel-input';
 
 @Component({
   selector: 'app-register',
@@ -18,18 +24,48 @@ import { th } from 'intl-tel-input/i18n';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
-export class RegisterComponent implements OnInit {
-  constructor(private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router) {}
+export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('phoneInput', { static: false }) phoneInput!: ElementRef;
 
   loading: boolean = false;
 
   registrationForm!: FormGroup;
   registerFormData!: FormData;
+  iti: any;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+  }
+
+  ngOnDestroy(): void {
+    if (this.iti) {
+      this.iti.destroy();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.iti = intlTelInput(this.phoneInput.nativeElement, {
+      initialCountry: 'eg',
+      geoIpLookup: (callback) => {
+        fetch('https://ipinfo.io/json?token=<d8dae8adf4e32d>')
+          .then((res) => res.json())
+          .then((res) => callback(res.country))
+          .catch((err) => console.error(err));
+      },
+      // @ts-ignore
+      utilsScript: 'assets/utils.js',
+    });
+    this.phoneInput.nativeElement.addEventListener('countrychange', () => {
+      this.registrationForm.patchValue({
+        phone: this.iti?.getNumber(),
+      });
+    });
   }
 
   initializeForm() {
@@ -66,17 +102,17 @@ export class RegisterComponent implements OnInit {
         next: (response) => {
           this.loading = false;
           if (response) {
-            console.log("Registered successfully:", response);
+            console.log('Registered successfully:', response);
             this.router.navigate(['/login']);
           }
         },
         error: (error) => {
-          console.error("Registration failed:", error);
+          console.error('Registration failed:', error);
           this.loading = false;
         },
       });
     } catch (error) {
-      console.error("An error occurred:", error);
+      console.error('An error occurred:', error);
       this.loading = false;
     }
   }

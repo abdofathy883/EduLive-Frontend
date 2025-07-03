@@ -1,23 +1,38 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { AuthService } from '../../Services/Auth/auth.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RegisterInstructor } from '../../Models/User/user';
-import { th } from 'intl-tel-input/i18n';
-
+import intlTelInput from 'intl-tel-input';
+import { IntelTelService } from '../../Services/CountryDedict/intel-tel.service';
 @Component({
   selector: 'app-careers',
   imports: [ReactiveFormsModule],
   templateUrl: './careers.component.html',
   styleUrl: './careers.component.css',
 })
-export class CareersComponent implements OnInit {
-  private authService = inject(AuthService);
-  private fb = inject(FormBuilder);
+export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('phoneInput', { static: false }) phoneInput!: ElementRef;
   instructorForm!: FormGroup;
   loading: boolean = false;
 
   private cvFile!: File;
   private introVideoFile!: File;
+
+  iti: any;
+
+  constructor(private authService: AuthService, private fb: FormBuilder) {}
 
   onFileChange(event: any, field: string) {
     if (event.target.files.length > 0) {
@@ -44,6 +59,31 @@ export class CareersComponent implements OnInit {
       introVideo: [null],
       password: ['', Validators.required],
       confirmPassword: [''],
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.iti) {
+      this.iti.destroy();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.iti = intlTelInput(this.phoneInput.nativeElement, {
+      initialCountry: 'eg',
+      geoIpLookup: (callback) => {
+        fetch('https://ipinfo.io/json?token=<d8dae8adf4e32d>')
+          .then((res) => res.json())
+          .then((res) => callback(res.country))
+          .catch((err) => console.error(err));
+      },
+      // @ts-ignore
+      utilsScript: 'assets/utils.js',
+    });
+    this.phoneInput.nativeElement.addEventListener('countrychange', () => {
+      this.instructorForm.patchValue({
+        phone: this.iti?.getNumber(),
+      });
     });
   }
 

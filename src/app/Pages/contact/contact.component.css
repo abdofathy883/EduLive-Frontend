@@ -1,12 +1,4 @@
-.form-btn{
-    background-color: var(--primary-color);
-    border: none;
-    border-radius: 12px;
-    padding: 10px 50px;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-}
+
 
 /* .form-container{
     border-radius: 12px;
@@ -32,4 +24,22 @@ span{
 i{
     color: white;
     font-size: 22px;
+}
+
+.iti {
+  width: 100%;
+}
+
+.iti {
+  display: block !important;
+}
+
+.iti__flag-container {
+  height: 100%;
+  border-right: 1px solid #ced4da;
+}
+
+.iti__selected-flag {
+  padding: 0 8px;
+  height: 100%;
 }

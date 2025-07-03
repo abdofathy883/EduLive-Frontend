@@ -24,17 +24,16 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
   loading: boolean = false;
   contactForm!: FormGroup;
   contactFormData!: FormData;
-  // iti: intlTelInput.Plugin | undefined;
+  iti: any;
   constructor(
     private fb: FormBuilder,
     private contactService: ContactFormService,
-    private intelTelService: IntelTelService
   ) {}
 
   ngOnDestroy(): void {
-    // if (this.iti) {
-    //   this.iti.destroy();
-    // }
+    if (this.iti) {
+      this.iti.destroy();
+    }
   }
 
   ngOnInit(): void {
@@ -42,21 +41,22 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    // this.iti = intlTelInput(this.phoneInput.nativeElement, {
-    //   initialCountry: 'auto',
-    //   geoIpLookup: callback => {
-    //     fetch('https://ipinfo.io/json?token=<d8dae8adf4e32d>')
-    //       .then(res => res.json())
-    //       .then(res => callback(res.country))
-    //       .catch(err => console.error(err));
-    //   },
-    //   utilsScript: 'assets/utils.js',
-    // })
-    // this.phoneInput.nativeElement.addEventListener('countrychange', () => {
-    //   this.contactForm.patchValue({
-    //     phone: this.iti?.getNumber()
-    //   });
-    // });
+    this.iti = intlTelInput(this.phoneInput.nativeElement, {
+      initialCountry: 'eg',
+      geoIpLookup: callback => {
+        fetch('https://ipinfo.io/json?token=<d8dae8adf4e32d>')
+          .then(res => res.json())
+          .then(res => callback(res.country))
+          .catch(err => console.error(err));
+      },
+      // @ts-ignore
+      utilsScript: 'assets/utils.js',
+    })
+    this.phoneInput.nativeElement.addEventListener('countrychange', () => {
+      this.contactForm.patchValue({
+        phone: this.iti?.getNumber()
+      });
+    });
   }
 
   initializeForm() {
@@ -69,7 +69,7 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  onSubmit() {
+  Submit() {
     this.loading = true;
     if (!this.contactForm.valid) {
       this.loading = false;

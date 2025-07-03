@@ -12,17 +12,17 @@ import { th } from 'intl-tel-input/i18n';
 export class BlogComponent implements OnInit {
   private blogService = inject(BlogService);
   @Output() openBlog = new EventEmitter<number>();
-  // Blogs: Blog[] = [];
+  Blogs: Blog[] = [];
 
   pageSize = 9; // blogs per page
   currentPage = 1;
 
-  Blogs = Array.from({ length: 19 }, (_, i) => ({
-    id: i + 1,
-    title: `Blog Title ${i + 1}`,
-    image: '/assets/minimalism4.jpg',
-    description: `Blog Description ${i + 1}`,
-  }));
+  // Blogs = Array.from({ length: 19 }, (_, i) => ({
+  //   id: i + 1,
+  //   title: `Blog Title ${i + 1}`,
+  //   image: '/assets/minimalism4.jpg',
+  //   description: `Blog Description ${i + 1}`,
+  // }));
 
   pageNumbers(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);

@@ -1,9 +1,18 @@
 a{
     text-decoration: none;
+    color: var(--primary-color);
+}
+.page-link:hover:not(.active) {
+    color: white; 
+    background-color: var(--secondary-color); 
+    border-color: var(--secondary-color);
+}
+.active > .page-link, .page-link.active{
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
 }
 .page-link{
     cursor: pointer;
-
 }
 
 .hero{

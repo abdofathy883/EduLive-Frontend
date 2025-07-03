@@ -1,5 +1,33 @@
-<section class="container">
-  <form action="" [formGroup]="instructorForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
+<section class="hero d-flex justify-content-center align-items-center">
+  <h1 class="text-white">وظائف المعلمين</h1>
+</section>
+
+<section class="container my-5">
+  <div class="row">
+    <div class="col-md-6 col-12">
+      <img src="/assets/Careers.jpg" width="100%" alt="" />
+    </div>
+    <div class="col-md-6 col-12 d-flex flex-column justify-content-center">
+      <h3 class="mb-4">انضم إلى أهل القرآن وخاصّته</h3>
+      <p>
+        في أكاديميتنا، نؤمن بأن تعليم القرآن الكريم هو رسالة سامية وشرف عظيم.
+        نحن نبحث عن مُحفِّظين ومُعلِّمين أكفاء يشاركوننا الالتزام بتقديم تعليم
+        قرآني عالي الجودة، يجمع بين إتقان الحفظ والفهم العميق. إذا كنت تمتلك
+        الخبرة والشغف لتكون جزءًا من هذه الرحلة المباركة، فنحن ندعوك للانضمام
+        إلينا.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="container my-5">
+  <h3 class="mb-3">املأ النموذج للانضمام إلينا</h3>
+  <form
+    action=""
+    [formGroup]="instructorForm"
+    enctype="multipart/form-data"
+    (ngSubmit)="onSubmit()"
+  >
     <div class="row mb-3">
       <div class="col">
         <label for="first-name" class="form-label">الاسم الاول</label>
@@ -36,6 +64,7 @@
           class="form-control"
           id="phone"
           formControlName="phoneNumber"
+          #phoneInput
         />
         @if (instructorForm.get("phoneNumber")?.invalid &&
         instructorForm.get("phoneNumber")?.touched) {
@@ -80,14 +109,15 @@
       </div>
     </div>
     <div class="row mb-3">
-        <label for="bio" class="form-label">ff
-            <textarea
-                class="form-control"
-                id="bio"
-                rows="3"
-                formControlName="bio"
-            ></textarea>
-        </label>
+      <label for="bio" class="form-label"
+        >ff
+        <textarea
+          class="form-control"
+          id="bio"
+          rows="3"
+          formControlName="bio"
+        ></textarea>
+      </label>
     </div>
     <div class="row mb-3">
       <div class="col">
@@ -121,7 +151,7 @@
           <span>ارسال</span>
         }
     </button> -->
-    <button type="submit" class="btn btn-primary" [disabled]="loading">
+    <button type="submit" class="form-button" [disabled]="loading">
       @if (!loading) { ارسال} @else {
       <span
         class="spinner-border spinner-border-sm"

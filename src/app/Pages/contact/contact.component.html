@@ -1,10 +1,10 @@
 <section class="hero d-flex justify-content-center align-items-center">
-  <h1>تواصل معنا</h1>
+  <h1 class="text-white">تواصل معنا</h1>
 </section>
 
 <section class="container py-4 px-4 mt-4">
   <div class="row">
-    <div class="col-3 py-4 px-4 dark-col">
+    <div class="col-12 col-md-3 py-4 px-4 dark-col">
       <h3 class="text-white">تواصل معنا الان</h3>
       <div class="mt-3">
         <i class="bi bi-phone me-3"></i>
@@ -19,9 +19,9 @@
         <span>mail&#64;gmail.com</span>
       </div>
     </div>
-    <div class="col-8 py-3">
+    <div class="col-12 col-md-9 py-3">
       <h3 >اترك رسالة</h3>
-      <form action="">
+      <form (onsubmit)="Submit()" class="form-container">
         <div class="mb-3">
           <label for="name" class="form-label">الاسم</label>
           <input
@@ -39,7 +39,6 @@
             id="phone"
             placeholder="الهاتف"
             #phoneInput
-            
           />
         </div>
         <div class="mb-3">
@@ -60,7 +59,7 @@
             rows="3"
           ></textarea>
         </div>
-        <button type="submit" class="form-btn">
+        <button type="submit" class="form-button" (click)="Submit()">
           @if (loading) {
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             جار الارسال...
@@ -68,7 +67,6 @@
             <span>ارسال</span>
           }
         </button>
-        <input type="submit" class="form-btn" value="ارسال" />
       </form>
     </div>
   </div>
@@ -85,3 +83,5 @@
     referrerpolicy="no-referrer-when-downgrade"
   ></iframe>
 </section>
+
+

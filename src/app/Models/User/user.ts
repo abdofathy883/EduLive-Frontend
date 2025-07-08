@@ -3,22 +3,22 @@ export interface RegisterStudent {
   lastName: string;
   email: string;
   phoneNumber: string;
-  password: string;
   dateOfBirth: string;
+  password: string;
 }
 
-export interface Student extends RegisterStudent {
-  studentId: string;
-}
+// export interface Student extends RegisterStudent {
+//   studentId: string;
+// }
 export interface RegisterInstructor {
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
   dateOfBirth: string;
-  bio: string;
   CV: File;
   introVideo: File;
+  bio: string;
   password: string;
   confirmPassword: string;
 }
@@ -29,12 +29,13 @@ export interface UserLogin {
 }
 
 export interface UpdateUser {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  password: string;
-  confirmPassword: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phoneNumber?: string;
+  password?: string;
+  cv?: File;
+  introVideo?: File;
 }
 
 export interface AuthResponse {
@@ -54,4 +55,5 @@ export interface AuthResponse {
   message?: string;
   refreshToken?: string;
   refreshTokenExpiration?: Date;
+  concurrencyStamp?: string;
 }

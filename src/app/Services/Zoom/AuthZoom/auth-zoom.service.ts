@@ -14,10 +14,10 @@ export class AuthZoomService {
     return this.http.get<{ url: string }>(`${this.baseUrl}/connect`);
   }
 
-  handleCallback(code: string, userId: string): Observable<ZoomUserConnection> {
+  handleCallback(code: string, state: string): Observable<ZoomUserConnection> {
     return this.http.get<ZoomUserConnection>(
       `${this.baseUrl}/callback`,
-      { params: { code, state: userId } }
+      { params: { code, state } }
     );
   }
 

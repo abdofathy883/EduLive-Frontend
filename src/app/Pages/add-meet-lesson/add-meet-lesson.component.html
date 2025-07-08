@@ -1,28 +1,65 @@
 <section class="container mt-3">
-  <button class="btn btn-primary" >ربط حسابك ب Google Meet</button>
-  <form action="">
-    <div class="form-group mb-3">
-      <label for="" class="form-label">الدورة التعليمية</label>
-      <select name="" id="" class="form-select">
-        <option selected disabled>اختر الدورة</option>
-        <!-- @for (course of Courses; track $index) {
-        <option value="{{ course.id }}">{{ course.title }}</option>
-        } -->
-      </select>
-    </div>
-    <div class="form-group mb-3">
-      <label for="title" class="form-label">عنوان الحصة</label>
-      <input type="text" class="form-control" id="title" />
-    </div>
-    <div class="form-group mb-3">
-      <label for="startTime" class="form-label">وقت البدء</label>
-      <input type="datetime-local" class="form-control" id="startTime" />
-    </div>
-    <div class="form-group mb-3">
-      <label for="duration" class="form-label">المدة</label>
-      <input type="number" class="form-control" id="duration" />
-    </div>
-
-    <input type="submit" value="اضافة" class="btn btn-primary" />
-  </form>
+  @if (!status) {
+    <button class="btn btn-primary">ربط حسابك ب Google Meet</button>
+  }
+  @if (status) {
+    <h4>اضافة حصة جديدة عن طريق Google Meet</h4>
+    <form class="form mt-3" (submit)="onSubmit()">
+      <div class="row mb-3">
+        <div class="col">
+          <label for="courseId" class="form-label">الدورة التعليمية</label>
+          <select id="courseId" class="form-select">
+            <option selected disabled>اختر الدورة</option>
+            @for (course of Courses; track $index) {
+            <option value="{{ course.id }}">{{ course.title }}</option>
+            }
+          </select>
+        </div>
+        <div class="col">
+          <label for="topic" class="form-label">عنوان الحصة</label>
+          <input type="text" class="form-control" id="topic" />
+        </div>
+      </div>
+  
+      <div class="row mb-3">
+        <div class="col">
+          <label for="description" class="form-label">وصف الحصة</label>
+          <textarea id="description" class="form-control"></textarea>
+        </div>
+        <div class="col">
+          <label for="startTime" class="form-label">وقت البدء</label>
+          <input type="datetime-local" class="form-control" id="startTime" />
+        </div>
+      </div>
+  
+      <div class="row mb-3">
+        <div class="col">
+          <label for="duration" class="form-label">المدة</label>
+          <input type="number" class="form-control" id="duration" />
+        </div>
+        <div class="col">
+          <label for="studentId">الطالب</label>
+          <select id="studentId" class="form-select">
+            <option selected disabled>اختر الطالب</option>
+            @for (student of students; track $index) {
+            <option value="{{ student.id }}">{{ student.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+  
+      <button class="form-button">
+        @if (loading) {
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          >جار الاضافة...</span
+        >
+        } @else {
+        <span class="text-primary">اضافة حصة جديدة</span>
+        }
+      </button>
+    </form>
+  }
 </section>

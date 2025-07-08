@@ -15,7 +15,6 @@ import {
 } from '@angular/forms';
 import { RegisterInstructor } from '../../Models/User/user';
 import intlTelInput from 'intl-tel-input';
-import { IntelTelService } from '../../Services/CountryDedict/intel-tel.service';
 @Component({
   selector: 'app-careers',
   imports: [ReactiveFormsModule],

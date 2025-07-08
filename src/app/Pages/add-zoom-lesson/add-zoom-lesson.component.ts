@@ -19,42 +19,52 @@ export class AddZoomLessonComponent implements OnInit {
   loading: boolean = false;
   submitted: boolean = false;
   instructorId: string = '';
+  students: any[] = [];
   status: boolean = false;
 
   constructor(
     private zoomAuthService: AuthZoomService,
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
+    private zoomService: ZoomService,
     private courseService: CoursesService,
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
     private router: Router,
-    private zoomService: ZoomService
   ) {}
-  ngOnInit(): void {
+  ngOnInit() {
+    this.getUserStatus();
     this.initForm();
-    this.loadCourse();
+    this.loadNeededData();
   }
 
-  private loadCourse(): void {
+  loadNeededData() {
     this.authService.currentUser$.subscribe((user) => {
       this.instructorId = user.id;
+      this.courseService.getInstructorCourses(this.instructorId).subscribe({
+        next: (courses) => {
+          this.Courses = courses;          
+        },
+        error: (error) => {
+          console.error('Error fetching courses:', error);
+        }
+      });
+      this.courseService.getStudentsByCourseId(this.Courses[0]?.id).subscribe({
+        next: (students) => {
+          this.students = students;
+        },
+        error: (error) => {
+          console.error('Error fetching students:', error);
+        }
+      });
     });
-    this.courseService.getInstructorCourses(this.instructorId).subscribe(
-      (courses) => {
-        this.Courses = courses;
-      },
-      (error) => {
-        console.error('Error fetching courses:', error);
-      }
-    );
   }
 
-  connectZoomAccount(): void {
+  connectZoomAccount() {
     this.zoomAuthService.getAuthorizationUrl().subscribe({
       next: res => window.location.href = res.url,
     })
   }
 
-  getUserStatus(): boolean {
+  getUserStatus() {
     this.zoomAuthService.getStatus(this.instructorId).subscribe({
       next: res => {
         if (res.isConnected === true) {
@@ -77,6 +87,8 @@ export class AddZoomLessonComponent implements OnInit {
       startTime: ['', [Validators.required]],
       duration: [60, [Validators.required, Validators.min(15)]],
       courseId: ['', [Validators.required]],
+      studentId: ['', [Validators.required]],
+      instructorId: [this.instructorId, [Validators.required]]
     });
   }
 
@@ -89,18 +101,18 @@ export class AddZoomLessonComponent implements OnInit {
     this.loading = true;
     const meetingData = {
       ...this.meetingForm.value,
-      // instructorId: this.authService.getCurrentUser().id,
       startTime: new Date(this.meetingForm.value.startTime)
     };
-    this.zoomService.createZoomMeeting(meetingData).subscribe(
-      (response) => {
+    this.zoomService.createZoomMeeting(meetingData).subscribe({
+      next: (response) => {
         this.loading = false;
         console.log('Zoom meeting created successfully:', response);
-        this.router.navigate(['/courses']); // needs update
+        this.router.navigate(['/courses']);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error creating Zoom meeting:', error);
+        this.loading = false;
       }
-    );
+    });
   }
 }

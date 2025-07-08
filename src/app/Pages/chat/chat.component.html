@@ -1,1 +1,76 @@
-<p>chat works!</p>
+<div class="container my-5" dir="rtl">
+  <div class="row chat-row">
+    <!-- Instructors List -->
+    <div class="col-md-3 overflow-auto p-3 border-start">
+      <h5 class="mb-4">المعلمين المتاحين</h5>
+
+      @for (instructor of instructors; track instructor.id) {
+        <div
+          class="card mb-3 instructor-card"
+          [class.bg-light]="selectedInstructor?.id === instructor.id"
+          (click)="selectInstructor(instructor)"
+        >
+          <div class="card-body">
+            <div class="fw-bold mb-2">{{ instructor.name }}</div>
+            <small class="text-muted">دورة: {{ instructor.course }}</small>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Chat Window -->
+    <div class="col-md-9 d-flex flex-column">
+      <!-- Chat Header -->
+      <div
+        class="border-bottom p-3 d-flex justify-content-between align-items-center bg-white"
+      >
+        @if (selectedInstructor) {
+          <div>
+            <h6 class="mb-0">{{ selectedInstructor.name }}</h6>
+            <small class="text-muted">دورة: {{ selectedInstructor.course }}</small>
+          </div>
+        } @else {
+          <h6 class="mb-0 text-muted">اختر معلم لبدء المحادثة</h6>
+        }
+      </div>
+
+      <!-- Messages Area -->
+      <div class="flex-grow-1 overflow-auto p-3 bg-light" id="chat-messages">
+        @for (msg of currentMessages; track $index) {
+          @if (msg.user !== currentUser) {
+            <!-- Incoming -->
+            <div class="d-flex mb-3">
+              <div class="bg-white p-2 rounded shadow-sm ms-5">
+                <div>{{ msg.message }}</div>
+                <small class="text-muted d-block mt-1 text-end">الآن</small>
+              </div>
+            </div>
+          } @else {
+            <!-- Outgoing -->
+            <div class="d-flex justify-content-end mb-3">
+              <div class="bg-primary text-white p-2 rounded shadow-sm me-5">
+                <div>{{ msg.message }}</div>
+                <small class="text-white-50 d-block mt-1 text-start">الآن</small>
+              </div>
+            </div>
+          }
+        }
+      </div>
+
+      <!-- Input -->
+      <div class="border-top p-3 bg-white">
+        <form (submit)="send(); $event.preventDefault()" class="d-flex align-items-center">
+          <textarea
+            [(ngModel)]="message"
+            name="chatMessage"
+            class="form-control me-2"
+            rows="1"
+            placeholder="اكتب رسالتك هنا..."
+            style="resize: none"
+          ></textarea>
+          <button type="submit" class="btn btn-primary">إرسال</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

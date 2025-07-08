@@ -18,6 +18,7 @@
           class="form-control"
           id="firstName"
           formControlName="firstName"
+          value="{{ currentUser?.firstName }}"
         />
       </div>
       <div class="col">
@@ -27,6 +28,7 @@
           class="form-control"
           id="lastName"
           formControlName="lastName"
+          value="{{ currentUser?.lastName }}"
         />
       </div>
     </div>
@@ -39,20 +41,9 @@
           class="form-control"
           id="phone"
           formControlName="phone"
+          value="{{ currentUser?.phoneNumber }}"
         />
       </div>
-      <div class="col">
-        <label for="email" class="form-label">البريد الالكتروني</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          formControlName="email"
-        />
-      </div>
-    </div>
-
-    <div class="row mb-3">
       <div class="col">
         <label for="password" class="form-label">الرقم السري</label>
         <input
@@ -62,28 +53,43 @@
           formControlName="password"
         />
       </div>
-      <div class="col">
-        <label for="intro-video" class="form-label">الفيديو التعريفي</label>
-        <input
-          type="file"
-          class="form-control"
-          id="intro-video"
-          formControlName="introVideo"
-        />
+    </div>
+
+    @if (currentUser.roles?.[0] === 'Instructor') {
+      <div class="row mb-3">
+        <div class="col">
+          <label for="cv" class="form-label">السيرة الذاتية</label>
+          <input
+            type="file"
+            class="form-control"
+            id="cv"
+            formControlName="cv"
+          />
+        </div>
+        <div class="col">
+          <label for="intro-video" class="form-label">الفيديو التعريفي</label>
+          <input
+            type="file"
+            class="form-control"
+            id="intro-video"
+            formControlName="introVideo"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="row mb-3">
-      <label for="bio" class="form-label">نبذه</label>
-      <textarea
-        name="bio"
-        id="bio"
-        class="form-control"
-        formControlName="bio"
-      ></textarea>
-    </div>
+      <div class="row mb-3">
+        <label for="bio" class="form-label">نبذه</label>
+        <textarea
+          name="bio"
+          id="bio"
+          class="form-control"
+          formControlName="bio"
+        ></textarea>
+      </div>
+    }
 
-    <button type="submit" class="form-button">
+
+    <button type="submit" class="form-button" (click)="onSubmit()">
       @if (loading) {
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         جار التحميل...

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoursesService } from '../../Services/Courses/courses.service';
 import { AuthService } from '../../Services/Auth/auth.service';
 import { FormsModule } from '@angular/forms';
+import { CourseReview } from '../../Models/Course/course';
 
 @Component({
   selector: 'app-course-reviews',
@@ -19,7 +20,12 @@ export class CourseReviewsComponent implements OnInit {
 
   course!: any;
   instructor!: any;
-  review: any;
+  review: CourseReview = {
+    courseId: 0,
+    studentId: '',
+    rating: 0,
+    comment: '',
+  };
 
   constructor(
     private reviewsService: ReviewsService,
@@ -84,7 +90,6 @@ export class CourseReviewsComponent implements OnInit {
     this.reviewsService.AddReview(this.review).subscribe({
       next: (response) => {
         console.log('Review created successfully:', response);
-        alert('Review created successfully');
       },
       error: (error) => {
         console.error('Error creating review:', error);

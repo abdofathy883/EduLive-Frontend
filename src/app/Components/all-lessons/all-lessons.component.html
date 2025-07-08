@@ -1,0 +1,29 @@
+<section class="container">
+    <h3>كل الحصص</h3>
+    <table class="table table-stripe">
+        <thead>
+            <tr>
+                <th>العنوان</th>
+                <th>الدورة</th>
+                <th>المعلم</th>
+                <th>رابط الدخول</th>
+                <th>رابط البدء</th>
+                <th>ميعاد البداية</th>
+                <th>المدة</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (lesson of lessons; track $index) {
+                <tr>
+                    <td>{{ lesson.topic }}</td>
+                    <td>{{ lesson.course.title }}</td>
+                    <td>{{ lesson.instructor.name }}</td>
+                    <td>{{ lesson.joinurl }}</td>
+                    <td>{{ lesson.starturl }}</td>
+                    <td>{{ lesson.startTime }}</td>
+                    <td>{{ lesson.duration }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

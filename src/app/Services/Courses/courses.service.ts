@@ -28,7 +28,7 @@ export class CoursesService {
     formData.append('categoryId', course.categoryId);
     formData.append('description', course.description);
     formData.append('originalPrice', course.originalPrice.toString());
-    formData.append('salePrice', course.discountedPrice.toString());
+    formData.append('salePrice', course.salePrice.toString());
     formData.append('nuOfLessons', course.nuOfLessons.toString());
     formData.append('instructorId', course.instructorId);
     formData.append(
@@ -59,6 +59,10 @@ export class CoursesService {
 
   getInstructorById(instructorId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/get-instructor/${instructorId}`);
+  }
+
+  getStudentsByCourseId(courseId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/get-students-by-course/${courseId}`);
   }
 
   // Category related methods

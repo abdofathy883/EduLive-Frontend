@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Blog } from '../../Models/Blog/blog';
 import { HttpClient } from '@angular/common/http';
+import { CourseReview } from '../../Models/Course/course';
 
 @Injectable({
   providedIn: 'root',
@@ -12,16 +13,16 @@ export class ReviewsService {
   constructor(private http: HttpClient) { }
 
   // Course Reviews related methods
-  AddReview(review: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl + '/add-review', review);
+  AddReview(review: CourseReview): Observable<CourseReview> {
+    return this.http.post<CourseReview>(this.apiUrl + '/add-review', review);
   }
 
-  getReviewsByCourseId(courseId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/get-reviews-by-course/${courseId}`);
+  getReviewsByCourseId(courseId: number): Observable<CourseReview[]> {
+    return this.http.get<CourseReview[]>(`${this.apiUrl}/get-reviews-by-course/${courseId}`);
   }
 
-  getReviewsByStudentId(studentId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/get-reviews-by-student/${studentId}`);
+  getReviewsByStudentId(studentId: string): Observable<CourseReview[]> {
+    return this.http.get<CourseReview[]>(`${this.apiUrl}/get-reviews-by-student/${studentId}`);
   }
 
   getAverageRatingByCourseId(courseId: number): Observable<number> {

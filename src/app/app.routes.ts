@@ -32,10 +32,7 @@ export const routes: Routes = [
                 path: 'add-course',
                 component: AddCourseComponent
             },
-            {
-                path: 'chat',
-                component: ChatComponent
-            },
+            
             {
                 path: 'settings',
                 component: ProfileSettingsComponent
@@ -46,6 +43,10 @@ export const routes: Routes = [
         path: 'blog',
         component: BlogComponent
     },
+    {
+                path: 'chat',
+                component: ChatComponent
+            },
     {
         path: 'courses',
         component: AllCoursesComponent,

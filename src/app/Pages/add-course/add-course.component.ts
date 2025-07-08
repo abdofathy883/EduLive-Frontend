@@ -77,7 +77,7 @@ export class AddCourseComponent implements OnInit, OnDestroy {
       categoryId: this.courseForm.value.categoryId,
       description: this.courseForm.value.description,
       originalPrice: this.courseForm.value.originalPrice,
-      discountedPrice: this.courseForm.value.discountedPrice,
+      salePrice: this.courseForm.value.discountedPrice,
       nuOfLessons: this.courseForm.value.nuOfLessons,
       courseImage: this.courseImage,
       instructorId: this.currentInstructor,

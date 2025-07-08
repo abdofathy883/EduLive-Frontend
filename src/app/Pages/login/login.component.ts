@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit {
               bio: response.bio,
               CV: response.CV,
               introVideo: response.introVideo,
+              concurrencyStamp: response.concurrencyStamp
             };
             localStorage.setItem('user', JSON.stringify(currentUser));
             this.authService.setCurrentStatus(currentUser);

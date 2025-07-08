@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../Services/Blog/blog.service';
+import { Blog } from '../../Models/Blog/blog';
 
 @Component({
   selector: 'app-blog-post',
@@ -10,12 +11,24 @@ import { BlogService } from '../../Services/Blog/blog.service';
 export class BlogPostComponent implements OnInit {
   currentBlogId!: number;
 
-  blogPost: any;
+  blogPost: Blog = {
+    id: 0,
+    title: '',
+    content: '',
+    postImage: '',
+    createdAt: ''
+  }
   constructor(private blogService: BlogService) {}
   
   ngOnInit(): void {
     this.blogService.getBlogById(this.currentBlogId).subscribe(post => {
-      this.blogPost = post;
+      this.blogPost = {
+        id: post.id,
+        title: post.title,
+        content: post.content,
+        postImage: post.postImage,
+        createdAt: post.createdAt
+      };
     });
   }
 

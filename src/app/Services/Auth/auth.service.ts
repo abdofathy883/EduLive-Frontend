@@ -111,8 +111,8 @@ export class AuthService {
     );
   }
 
-  updateUser(user: FormData): Observable<any> {
-    return this.http.put<RegisterStudent>(`${this.apiUrl}/update-user`, user);
+  updateUser(userId: number, user: FormData): Observable<any> {
+    return this.http.put<RegisterStudent>(`${this.apiUrl}/update-user?userid=${userId}`, user);
   }
 
   deleteUser(id: number): Observable<any> {

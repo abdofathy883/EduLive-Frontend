@@ -8,34 +8,29 @@ import { Observable } from 'rxjs';
 })
 export class ZoomService {
   private apiUrl = '';
-  private authApiUrl = '';
   constructor(private http: HttpClient) { }
 
   createZoomMeeting(meetingData: CreateZoomMeetingRequest): Observable<ZoomMeeting> {
-    return this.http.post<ZoomMeeting>(this.apiUrl, meetingData);
+    return this.http.post<ZoomMeeting>(`${this.apiUrl}/add-new-zoom-lesson`, meetingData);
   }
 
   updateZoomMeeting(meetingId: string, meeting: UpdateZoomMeetingRequest): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${meetingId}`, meeting);
   }
 
-  disconnectZoomAccount(): Observable<void> {
-    return this.http.post<void>(`${this.authApiUrl}/disconnect`, {});
-  }
-
   GetMeetingById(meetingId: string): Observable<ZoomMeeting> {
-    return this.http.get<ZoomMeeting>(`${this.apiUrl}/${meetingId}`);
+    return this.http.get<ZoomMeeting>(`${this.apiUrl}/get-zoom-meeting/${meetingId}`);
   }
 
   GetMeetingsByCourseId(courseId: string): Observable<ZoomMeeting[]> {
-    return this.http.get<ZoomMeeting[]>(`${this.apiUrl}/course/${courseId}`);
+    return this.http.get<ZoomMeeting[]>(`${this.apiUrl}/get-meetings-by-course/${courseId}`);
   }
 
   GetMeetingsByInstructorId(instructorId: string): Observable<ZoomMeeting[]> {
-    return this.http.get<ZoomMeeting[]>(`${this.apiUrl}/instructor/${instructorId}`);
+    return this.http.get<ZoomMeeting[]>(`${this.apiUrl}/get-meetings-by-instructor/${instructorId}`);
   }
 
   GetMeetingsByStudentId(studentId: string): Observable<ZoomMeeting[]> {
-    return this.http.get<ZoomMeeting[]>(`${this.apiUrl}/student/${studentId}`);
+    return this.http.get<ZoomMeeting[]>(`${this.apiUrl}/get-meetings-by-student/${studentId}`);
   }
 }

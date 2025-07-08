@@ -1,3 +1,4 @@
+<!-- The Head Section -->
 <section class="container my-5">
   <h1>اهلا, {{ currentUser.firstName }} {{ currentUser?.lastName }}</h1>
   @if (currentUser.roles?.[0] === 'Instructor') {
@@ -6,6 +7,16 @@
     <h3>حساب طالب</h3>
   } 
   <button (click)="logOut()" class="btn btn-danger my-3">تسجيل الخروج</button>
+  <!-- ---------End of Head Section --------- -->
+  
+  <!-- Check for Instructor Approval -->
+  @if(currentUser.roles?.[0] === 'Instructor' && !isApproved) {
+    <div class="alert alert-danger" role="alert">
+      حسابك غير مفعل بعد, سيتم التواصل معاك قبل تفعيل الحساب.
+    </div>
+  }
+  <!-- End of Check for Instructor Approval -->
+  
   @if(currentUser.roles?.[0] === 'Instructor' && isApproved){
     <ul class="nav nav-tabs" id="courseTabs" role="tablist">
       <li class="nav-item" role="presentation">
@@ -102,6 +113,7 @@
         aria-labelledby="course-description-tab"
       >
         <h3>الدورات الحالية</h3>
+        <!-- ------********************* GET COURSES BY INSTRUCTOR ID **************************------ -->
         <div class="row">
           <div class="col"></div>
           <div class="col"></div>
@@ -178,6 +190,7 @@
         role="tabpanel"
         aria-labelledby="salary-reviews"
       >
+      <!-- ------********************* GET SALARY BY INSTRUCTOR ID **************************------ -->
         <div class="row">
           <div class="col">
             <div class="card py-3">
@@ -298,7 +311,7 @@
         aria-labelledby="add-lesson-tab"
       >
         <ul class="nav nav-tabs" id="leesonTabs" role="tablist">
-          <!-- <li class="nav-item" role="presentation">
+          <li class="nav-item" role="presentation">
             <button
               class="nav-link active"
               id="meet-tab"
@@ -311,7 +324,7 @@
             >
               Google Meet
             </button>
-          </li> -->
+          </li>
           <!-- <li class="nav-item" role="presentation">
             <button
               class="nav-link"
@@ -327,7 +340,7 @@
             </button>
           </li> -->
         </ul>
-        <!-- <div class="tab-content" id="leesonTabsContent">
+        <div class="tab-content" id="leesonTabsContent">
           <div
             class="tab-pane fade show active"
             id="meet"
@@ -344,9 +357,9 @@
           >
             <app-add-zoom-lesson></app-add-zoom-lesson>
           </div>
-        </div> -->
+        </div>
       </div>
-      <!-- <div
+      <div
         class="tab-pane fade"
         id="salary-reviews"
         role="tabpanel"
@@ -375,7 +388,7 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
       <div
         class="tab-pane fade"
         id="update-user-reviews"
@@ -395,9 +408,4 @@
     </div>
   }
 
-  @if(currentUser.roles?.[0] === 'Instructor' && !isApproved) {
-    <div class="alert alert-danger" role="alert">
-      حسابك غير مفعل بعد, سيتم التواصل معاك قبل تفعيل الحساب.
-    </div>
-  }
 </section>

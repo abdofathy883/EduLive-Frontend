@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../Services/Auth/auth.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lesson-report',
@@ -18,12 +19,33 @@ export class LessonReportComponent implements OnInit {
   currentPage = 1;
   private userSubscription: Subscription | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.currentUser$.subscribe(user => {
+    this.currentUser = this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
-      this.userRole = user?.role || '';
+      console.log('Current User:', this.currentUser);
+    });
+
+    const token = localStorage.getItem('token');
+    
+    if (!this.currentUser || !token) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    if (
+      Array.isArray(this.currentUser.roles) &&
+      this.currentUser.roles.length > 0
+    ) {
+      debugger;
+      this.userRole = this.currentUser.roles[0];
+      console.log('user role:', this.userRole);
+
+    }
+
+    this.userSubscription = this.authService.currentUser$.subscribe((user) => {
+      this.currentUser = user;
     });
   }
 
@@ -46,6 +68,7 @@ export class LessonReportComponent implements OnInit {
 
 
   submit(){
+      console.log('user role:', this.userRole);
 
   }
 

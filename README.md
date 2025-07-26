@@ -1,59 +1,105 @@
-# ELearningClient
+# EduLive – Real-Time Instructor-Led E-Learning Platform
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.8.
+EduLive is a comprehensive learning platform designed to facilitate **live instructor-led education**, enabling real-time class sessions, scheduling, interactive discussions, and automated certificate issuance. It bridges the gap between traditional classroom instruction and online flexibility.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🧠 Project Overview
 
-```bash
-ng serve
-```
+EduLive empowers instructors and students to interact in real time, manage lessons, and participate in structured, synchronous educational sessions.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Unlike static, pre-recorded platforms, EduLive focuses on:
+- **Live class delivery**
+- **Calendar-based scheduling**
+- **Real-time messaging**
+- **Personalized certificate issuance**
+- **Course and lesson management**
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 💡 Business Idea
 
-```bash
-ng generate component component-name
-```
+EduLive solves a clear problem in online education — lack of real-time interaction. It enables:
+- Instructors to host scheduled classes using Zoom or Google Meet
+- Students to engage live and receive real-time updates and support
+- Automated generation of PDF certificates upon course completion
+- Admin control over users, courses, and content
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 🚀 Key Features
 
-## Building
+- **Live Class Scheduling**: Instructors schedule sessions via Google Calendar with Google Meet or Zoom links
+- **Real-Time Chat**: SignalR-powered messaging between instructors and students during active sessions
+- **User Roles**: Role-based access and dashboards for admins, instructors, and students
+- **Course & Lesson Management**: Instructors can create courses, lessons, and assign content
+- **Certificate Generation**: Students receive personalized PDF certificates using dynamic templates
+- **Image Processing**: Uploaded lesson images or thumbnails are automatically converted to optimized `.webp` format with safe naming
+- **Admin Panel**: Razor-based interface for user/course moderation and system control
 
-To build the project run:
+---
 
-```bash
-ng build
-```
+## 🧱 Architecture & Project Structure
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+EduLive follows a layered, clean architecture approach for long-term maintainability and scalability:
 
-## Running unit tests
+### 🧩 Core Layer
+- `Models`: Domain entities (User, Course, Lesson, Certificate, etc.)
+- `DTOs`: Data transfer structures for APIs
+- `Interfaces`: Abstractions for repositories and services
+- `Enums`: Constant definitions for roles, lesson types, etc.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### 🏗️ Infrastructure Layer
+- `Data`: SQL Server context, configuration, migrations
+- `Repositories`: Generic and domain-specific implementations
+- `Services`: Business logic (certificates, calendar APIs, etc.)
+- `Auth`: Identity and JWT handling
+- `SignalR`: Real-time messaging hub
+- `Images`: File storage and `.webp` conversion
+- `Certificates`: PDF generation with DinkToPdf
 
-```bash
-ng test
-```
+### 🌐 API Layer
+- `Controllers`: RESTful endpoints for auth, course, lesson, chat, etc.
+- `Middleware`: JWT pipeline, error handling
+- `Extensions`: Dependency injection and app setup
 
-## Running end-to-end tests
+### 📊 Admin Panel
+- `Controllers`: Admin MVC logic
+- `Views`: Razor UI for managing users, courses, and lessons
+- `Models`: Admin-specific view models
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
+## 🔧 Technology Stack
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+| Component        | Technology                         |
+|------------------|-------------------------------------|
+| Backend          | ASP.NET Core 8.0                    |
+| Database         | SQL Server + EF Core                |
+| Frontend         | Angular (developed by @abdofathy883)|
+| Auth             | ASP.NET Identity + JWT              |
+| Realtime         | SignalR                             |
+| Certificates     | DinkToPdf (HTML → PDF)              |
+| Scheduling       | Google Calendar API + OAuth2        |
+| Media Processing | `.webp` image conversion service     |
+| Admin UI         | Razor Pages + Bootstrap             |
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🗂️ Repositories
+
+- 🔗 [Frontend Repository](https://github.com/abdofathy883/EduLive-Frontend)
+
+---
+
+## 🚧 Deployment Status
+
+⚠️ Project is complete and locally tested but **deployment is currently blocked** due to:
+- Client-side delays in VPS provisioning
+- Missing production credentials and SSL certificates required for Zoom and Google Meet integrations
+
+---
+
+## 📄 License
+
+This project is developed for prototyping purposes. Contact the maintainer for commercial use or extensions.

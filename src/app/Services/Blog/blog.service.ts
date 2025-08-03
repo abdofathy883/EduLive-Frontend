@@ -1,22 +1,20 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Blog } from '../../Models/Blog/blog';
+import { ApiService } from '../api-service/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlogService {
-  private apiUrl = '';
-  private http = inject(HttpClient);
+  private endpoint = 'blog';
+  constructor(private api: ApiService) { }
 
-  constructor() { }
-
-  getBlogs(): Observable<Blog[]> {
-    return this.http.get<Blog[]>(this.apiUrl + '/get-all-blogs');
+  getAll(): Observable<Blog[]> {
+    return this.api.get<Blog[]>(this.endpoint);
   }
 
-  getBlogById(id: number): Observable<Blog> {
-    return this.http.get<Blog>(this.apiUrl + '/get-blog/' + id);
+  getById(id: number): Observable<Blog> {
+    return this.api.get<Blog>(`${this.endpoint}/${id}`);
   }
 }

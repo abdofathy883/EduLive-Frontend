@@ -24,22 +24,14 @@ export class AllLessonsComponent implements OnInit {
     private zoomService: ZoomService
   ) {}
   ngOnInit(): void {
-    this.currentUser = this.authService.currentUser$.subscribe((user) => {
-      this.currentUser = user;
-    });
-
-    if (
-      Array.isArray(this.currentUser.roles) &&
-      this.currentUser.roles.length > 0
-    ) {
-      this.userRole = this.currentUser.roles[0];
-    }
-
+    this.currentUser = this.authService.getCurrentUser();
     this.loadLessons();
   }
 
   loadLessons() {
-    if (this.userRole[0] == 'Instructor') {
+    const isStudent = this.authService.isStudent();
+    const isInstructor = this.authService.isInstructor();
+    if (isInstructor) {
       this.meetService
         .GetMeetingsByInstructorId(this.currentUser.id)
         .subscribe({
@@ -61,7 +53,7 @@ export class AllLessonsComponent implements OnInit {
       this.lessons = [...this.meetLessons, ...this.zoomLessons];
     }
 
-    if (this.userRole[0] == 'Student') {
+    if (isInstructor) {
       this.meetService.GetMeetingsByStudentId(this.currentUser.id).subscribe({
         next: (res) => {
           this.meetLessons = res;

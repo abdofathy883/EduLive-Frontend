@@ -2,3 +2,21 @@
     background-color: var(--primary-color);
     height: 30vh;
 }
+
+.old-price{
+      text-decoration: line-through;
+      color: #999;
+}
+a{
+      text-decoration: none;
+}
+.nav-button{
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 1.5rem;
+}

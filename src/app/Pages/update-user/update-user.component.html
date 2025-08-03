@@ -1,15 +1,14 @@
 <section class="my-3">
   @if (errorMessage) {
-    <div class="alert alert-danger" role="alert">
-      {{ errorMessage }}
-    </div>
+  <div class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+  </div>
+  } @if (successMessage) {
+  <div class="alert alert-success" role="alert">
+    {{ successMessage }}
+  </div>
   }
-  @if (successMessage) {
-    <div class="alert alert-success" role="alert">
-      {{ successMessage }}
-    </div>
-  }
-  <form action="" [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
     <div class="row mb-3">
       <div class="col">
         <label for="firstName" class="form-label">الاسم الاول</label>
@@ -18,7 +17,6 @@
           class="form-control"
           id="firstName"
           formControlName="firstName"
-          value="{{ currentUser?.firstName }}"
         />
       </div>
       <div class="col">
@@ -28,7 +26,6 @@
           class="form-control"
           id="lastName"
           formControlName="lastName"
-          value="{{ currentUser?.lastName }}"
         />
       </div>
     </div>
@@ -40,8 +37,7 @@
           type="phone"
           class="form-control"
           id="phone"
-          formControlName="phone"
-          value="{{ currentUser?.phoneNumber }}"
+          formControlName="phoneNumber"
         />
       </div>
       <div class="col">
@@ -51,51 +47,47 @@
           class="form-control"
           id="password"
           formControlName="password"
+          placeholder="اتركه فارغًا إذا لم ترغب في تغييره"
         />
       </div>
     </div>
 
     @if (currentUser.roles?.[0] === 'Instructor') {
-      <div class="row mb-3">
-        <div class="col">
-          <label for="cv" class="form-label">السيرة الذاتية</label>
-          <input
-            type="file"
-            class="form-control"
-            id="cv"
-            formControlName="cv"
-          />
-        </div>
-        <div class="col">
-          <label for="intro-video" class="form-label">الفيديو التعريفي</label>
-          <input
-            type="file"
-            class="form-control"
-            id="intro-video"
-            formControlName="introVideo"
-          />
-        </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="cv" class="form-label">السيرة الذاتية</label>
+        <input type="file" class="form-control" id="cv" formControlName="cv" />
       </div>
-
-      <div class="row mb-3">
-        <label for="bio" class="form-label">نبذه</label>
-        <textarea
-          name="bio"
-          id="bio"
+      <div class="col">
+        <label for="intro-video" class="form-label">الفيديو التعريفي</label>
+        <input
+          type="file"
           class="form-control"
-          formControlName="bio"
-        ></textarea>
+          id="intro-video"
+          formControlName="introVideo"
+        />
       </div>
-    }
+    </div>
 
+    <div class="row mb-3">
+      <label for="bio" class="form-label">نبذه</label>
+      <textarea
+        name="bio"
+        id="bio"
+        class="form-control"
+        formControlName="bio"
+      ></textarea>
+    </div>
+    }
 
     <button type="submit" class="form-button" (click)="onSubmit()">
       @if (loading) {
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        جار التحميل...
-      } @else {
-        تعديل
-      }
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      جار التحميل... } @else { تعديل }
     </button>
   </form>
 </section>

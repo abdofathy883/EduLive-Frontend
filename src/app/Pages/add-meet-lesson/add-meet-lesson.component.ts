@@ -1,4 +1,3 @@
-import { th } from 'intl-tel-input/i18n';
 import { Component, OnInit } from '@angular/core';
 import { MeetService } from '../../Services/GoogleMeet/meet-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -6,6 +5,7 @@ import { MeetAuthService } from '../../Services/GoogleMeet/GoogleMeetAuth/meet-a
 import { CoursesService } from '../../Services/Courses/courses.service';
 import { AuthService } from '../../Services/Auth/auth.service';
 import { Router } from '@angular/router';
+import { User } from '../../Models/User/user';
 
 @Component({
   selector: 'app-add-meet-lesson',
@@ -18,6 +18,8 @@ export class AddMeetLessonComponent implements OnInit {
   students: any[] = [];
   Courses: any[] = [];
   instructorId: string = '';
+  currentUser: any;
+  
   loading: boolean = false;
   meetingForm!: FormGroup;
   constructor(
@@ -30,9 +32,10 @@ export class AddMeetLessonComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getUserStatus();
+    this.currentUser = this.authService.getCurrentUser();
+    // this.getUserStatus();
     this.initializeForm();
-    this.loadNeededData();
+    // this.loadNeededData();
   }
 
   initializeForm() {
@@ -47,8 +50,7 @@ export class AddMeetLessonComponent implements OnInit {
   }
 
   loadNeededData() {
-    this.authService.currentUser$.subscribe((user) => {
-      this.instructorId = user.id;
+    this.instructorId = this.currentUser.userId;
       this.courseService.getInstructorCourses(this.instructorId).subscribe({
         next: (courses) => {
           this.Courses = courses;          
@@ -65,11 +67,10 @@ export class AddMeetLessonComponent implements OnInit {
           console.error('Error fetching students:', error);
         }
       });
-    });
   }
 
   getUserStatus() {
-    this.meetAuthService.checkConnectionStatus(this.authService.getCurrentUser().id).subscribe({
+    this.meetAuthService.checkConnectionStatus(this.currentUser.userId).subscribe({
       next: res => {
         if (res.isConnected === true) {
           console.log('User is connected to Google Meet');

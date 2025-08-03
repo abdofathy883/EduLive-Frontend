@@ -5,7 +5,7 @@ import { AuthService } from '../../Services/Auth/auth.service';
 export const authGGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  const token = localStorage.getItem('token');
+  const token = authService.getAuthorizationToken();
 
   if (!token) {
     // Redirect to login if not logged in
@@ -13,7 +13,5 @@ export const authGGuard: CanActivateFn = (route, state) => {
       queryParams: { returnUrl: state.url },
     });
   }
-
-  
   return true;
 };

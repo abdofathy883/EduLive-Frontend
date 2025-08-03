@@ -1,25 +1,25 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { NewCourse } from '../../Models/Course/course';
+import { Injectable } from '@angular/core';
+import { Course, NewCourse } from '../../Models/Course/course';
 import { Observable } from 'rxjs';
+import { ApiService } from '../api-service/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoursesService {
-  private apiUrl = 'http://localhost:5153/api/Courses';
-  private apiUrlCategory = 'http://localhost:5153/api/Category';
+  private endpoint = 'courses';
+  private categoryEndpoint = 'category';
 
-  constructor(private http: HttpClient) { }
+  constructor(private api: ApiService) { }
 
   // Course related methods
 
   getAllCourses(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + "/all-courses");
+    return this.api.get<any[]>(`${this.endpoint}/all-courses`);
   }
 
-  getCourseById(courseId: number): Observable<NewCourse> {
-    return this.http.get<NewCourse>(`${this.apiUrl}/get-course/${courseId}`);
+  getCourseById(courseId: number): Observable<Course> {
+    return this.api.get<Course>(`${this.endpoint}/get-course/${courseId}`);
   }
 
   addCourse(course: NewCourse): Observable<NewCourse> {
@@ -36,41 +36,37 @@ export class CoursesService {
       course.certificateSerialNumber ? course.certificateSerialNumber : ''
     );
     formData.append('courseImage', course.courseImage, course.courseImage.name);
-    return this.http.post<NewCourse>(`${this.apiUrl}/add-new-course`, formData);
+    return this.api.post<NewCourse>(`${this.endpoint}/add-course`, formData);
   }
 
   updateCourse(id: number, course: NewCourse): Observable<NewCourse> {
-    return this.http.put<NewCourse>(this.apiUrl + `/update-course${id}`, course);
+    return this.api.put<NewCourse>(`${this.endpoint}/${id}`, course);
   }
 
   deleteCourse(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + "/delete-course");
+    return this.api.delete<void>(`${this.endpoint}/${id}`);
   }
 
   // Student related methods
-  getStudentCourses(studentId: number): Observable<NewCourse[]> {
-    return this.http.get<NewCourse[]>(this.apiUrl + `/enrolled-course/${studentId}`);
+  getStudentCourses(studentId: number): Observable<Course[]> {
+    return this.api.get<Course[]>(`${this.endpoint}/enrolled-course/${studentId}`);
   }
 
   // Instructor related methods
-  getInstructorCourses(instructorId: string): Observable<NewCourse[]> {
-    return this.http.get<NewCourse[]>(this.apiUrl + `/owned-course/${instructorId}`);
+  getInstructorCourses(instructorId: string): Observable<Course[]> {
+    return this.api.get<Course[]>(`${this.endpoint}/owned-course/${instructorId}`);
   }
 
   getInstructorById(instructorId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/get-instructor/${instructorId}`);
+    return this.api.get<any>(`${this.endpoint}/get-instructor/${instructorId}`);
   }
 
   getStudentsByCourseId(courseId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/get-students-by-course/${courseId}`);
+    return this.api.get<any[]>(`${this.endpoint}/get-students-by-course/${courseId}`);
   }
 
   // Category related methods
   getAllCategories(): Observable<string[]> {
-    return this.http.get<string[]>(this.apiUrlCategory + "/all-categories");
-  }
-
-  getCategoryById(categoryId: number): Observable<string> {
-    return this.http.get<string>(`${this.apiUrlCategory}/get-category/${categoryId}`);
+    return this.api.get<string[]>(`${this.categoryEndpoint}/all-categories`);
   }
 }

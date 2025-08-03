@@ -1,20 +1,18 @@
-<section class="">
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 my-4">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 my-2">
     @for (course of pagedCourses; track $index) {
-  
     <div class="col">
       <div class="card px-2 py-2">
         <img [src]="course.image" class="img-thumbnail" alt="" />
   
         <h3>{{ course.title }}</h3>
         <div class="d-flex justify-content-between mt-2">
-          <h5>{{ course.category }}</h5>
-          <h5>{{ course.lessons }}</h5>
+          <h5>{{ course.categoryId }}</h5>
+          <h5>{{ course.nuOfLessons }}</h5>
         </div>
   
         <div class="d-flex justify-content-between mt-2">
-          <h5>{{ course.price }}</h5>
-          <h5 class="old-price">{{ course.oldPrice }}</h5>
+          <h5>{{ course.salePrice }}</h5>
+          <h5 class="old-price">{{ course.originalPrice }}</h5>
         </div>
 
         <a class="nav-button" [routerLink]="['/single-course', course.id]">عرض الدورة</a>
@@ -42,5 +40,3 @@
     </nav>
   }
   </div>
-
-</section>

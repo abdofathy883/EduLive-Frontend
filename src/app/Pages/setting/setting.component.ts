@@ -1,3 +1,4 @@
+import { UpdateUser } from './../../Models/User/user';
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../Services/Auth/auth.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -37,13 +38,13 @@ export class SettingComponent implements OnInit {
     this.userFormData.append('email', this.userForm.value.email);
     this.userFormData.append('phone', this.userForm.value.phone);
     this.userFormData.append('password', this.userForm.value.password);
-    this.authService.updateUser(this.userFormData).subscribe(
-      (response) => {
-        console.log('User updated successfully:', response);
-      },
-      (error) => {
-        console.error('Error updating user:', error);
-      }
-    );
+    // this.authService.UpdateUserById(this.userFormData).subscribe(
+    //   (response) => {
+    //     console.log('User updated successfully:', response);
+    //   },
+    //   (error) => {
+    //     console.error('Error updating user:', error);
+    //   }
+    // );
   }
 }

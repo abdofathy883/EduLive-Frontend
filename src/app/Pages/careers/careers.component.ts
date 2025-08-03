@@ -25,6 +25,7 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('phoneInput', { static: false }) phoneInput!: ElementRef;
   instructorForm!: FormGroup;
   loading: boolean = false;
+  responseMessage: string = '';
 
   private cvFile!: File;
   private introVideoFile!: File;
@@ -57,7 +58,7 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
       CV: [null],
       introVideo: [null],
       password: ['', Validators.required],
-      confirmPassword: [''],
+      // confirmPassword: [''],
     });
   }
 
@@ -90,6 +91,7 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
     // debugger;
     this.loading = true;
     if (this.instructorForm.invalid) {
+      this.instructorForm.markAllAsTouched();
       this.loading = false;
       return;
     }
@@ -109,6 +111,7 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
     this.authService.registerInstructor(registerForm).subscribe({
       next: (response) => {
         console.log(response);
+        this.responseMessage = response.message || 'Registration successful';
         alert('Your application has been submitted successfully');
         this.instructorForm.reset();
         this.loading = false;
@@ -117,6 +120,7 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
       error: (error) => {
         console.error(error);
         this.loading = false;
+        this.responseMessage = error.error?.message || 'An error occurred';
         alert('An error occurred while submitting your application');
         // Handle error response
       },

@@ -1,53 +1,67 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../Services/Auth/auth.service';
-import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { User } from '../../Models/User/user';
+import { ReportsService } from '../../Services/reports/reports.service';
 
 @Component({
   selector: 'app-lesson-report',
   imports: [],
   templateUrl: './lesson-report.component.html',
-  styleUrl: './lesson-report.component.css'
+  styleUrl: './lesson-report.component.css',
 })
 export class LessonReportComponent implements OnInit {
-  currentUser: any = null;
-  userRole: string = '';
-  Reports: any[] = [];
+  currentUser!: User | null;
+  reports!: any[];
   isLoading: boolean = false;
+  isStudent: boolean = false;
+  isInstructor: boolean = false;
 
   pageSize = 10;
   currentPage = 1;
-  private userSubscription: Subscription | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private reportService: ReportsService
+  ) {}
 
   ngOnInit(): void {
-    this.currentUser = this.authService.currentUser$.subscribe(user => {
-      this.currentUser = user;
-      console.log('Current User:', this.currentUser);
-    });
+    this.currentUser = this.authService.getCurrentUser();
+    this.isInstructor = this.authService.isInstructor();
+    this.isStudent = this.authService.isStudent();
 
-    const token = localStorage.getItem('token');
-    
-    if (!this.currentUser || !token) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    if (
-      Array.isArray(this.currentUser.roles) &&
-      this.currentUser.roles.length > 0
-    ) {
-      debugger;
-      this.userRole = this.currentUser.roles[0];
-      console.log('user role:', this.userRole);
-
-    }
-
-    this.userSubscription = this.authService.currentUser$.subscribe((user) => {
-      this.currentUser = user;
-    });
+    this.loadReports();
   }
+
+  loadReports() {
+    if (!this.currentUser) {
+      console.error('No current user found');
+      return;
+
+    }
+    if (this.isStudent) {
+      this.reportService.getAllByStudentId(this.currentUser?.userId).subscribe({
+        next: (reports) => {
+          this.reports = reports as any[];
+          console.log('Student reports fetched successfully:', this.reports);
+        },
+        error: (error) => {
+          console.error('Error fetching student reports:', error);
+        }
+      });
+    }
+
+    if (this.isInstructor) {
+      this.reportService.getAllByInstructorId(this.currentUser?.userId).subscribe({
+        next: (reports) => {
+          this.reports = reports as any[];
+          console.log('Instructor reports fetched successfully:', this.reports);
+        },
+        error: (error) => {
+          console.error('Error fetching instructor reports:', error);
+        }
+      });
+  }
+}
 
   changePage(page: number) {
     this.currentPage = page;
@@ -59,17 +73,14 @@ export class LessonReportComponent implements OnInit {
 
   get pagedReports() {
     const start = (this.currentPage - 1) * this.pageSize;
-    return this.Reports.slice(start, start + this.pageSize);
+    return this.reports.slice(start, start + this.pageSize);
   }
 
   get totalPages() {
-    return Math.ceil(this.Reports.length / this.pageSize);
+    return Math.ceil(this.reports.length / this.pageSize);
   }
 
-
-  submit(){
-      console.log('user role:', this.userRole);
-
+  submit() {
+    console.log('user role:', this.currentUser?.roles[0]);
   }
-
 }

@@ -1,35 +1,35 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ZoomUserConnection } from '../../../Models/Zoom/zoom';
+import { ApiService } from '../../api-service/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthZoomService {
-  private baseUrl = 'http://localhost:5153/api/ZoomAuth';
-  constructor(private http: HttpClient) { }
+  private baseUrl = 'ZoomAuth';
+  constructor(private api: ApiService) { }
 
-  getAuthorizationUrl(): Observable<{ url: string }> {
-    return this.http.get<{ url: string }>(`${this.baseUrl}/connect`);
+  getAuthorizationUrl(userId: string): Observable<{ url: string, state: string }> {
+    return this.api.get<{ url: string, state: string }>
+    (`${this.baseUrl}/connect/${encodeURIComponent(userId)}`);
   }
 
   handleCallback(code: string, state: string): Observable<ZoomUserConnection> {
-    return this.http.get<ZoomUserConnection>(
-      `${this.baseUrl}/callback`,
-      { params: { code, state } }
+    return this.api.get<ZoomUserConnection>(
+      `${this.baseUrl}/callback?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state)}`
     );
   }
 
   getStatus(userId: string): Observable<ZoomUserConnection> {
-    return this.http.get<ZoomUserConnection>(`${this.baseUrl}/status/${userId}`);
+    return this.api.get<ZoomUserConnection>(`${this.baseUrl}/status/${userId}`);
   }
 
   refreshToken(userId: string): Observable<{ accessToken: string }> {
-    return this.http.post<{ accessToken: string }>(`${this.baseUrl}/refresh/${userId}`, {});
+    return this.api.post<{ accessToken: string }>(`${this.baseUrl}/refresh/${userId}`, {});
   }
 
   revokeAccess(userId: string): Observable<{ revoked: boolean }> {
-    return this.http.post<{ revoked: boolean }>(`${this.baseUrl}/revoke/${userId}`, {});
+    return this.api.post<{ revoked: boolean }>(`${this.baseUrl}/revoke/${userId}`, {});
   }
 }

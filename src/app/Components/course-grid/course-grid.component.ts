@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CoursesService } from '../../Services/Courses/courses.service';
+import { AuthService } from '../../Services/Auth/auth.service';
+import { User } from '../../Models/User/user';
+import { Course } from '../../Models/Course/course';
 
 @Component({
   selector: 'app-course-grid',
@@ -11,37 +14,51 @@ import { CoursesService } from '../../Services/Courses/courses.service';
 export class CourseGridComponent implements OnInit {
   @Output() openCourse = new EventEmitter<number>();
   @Input() instructorId: string | null = null;
+  currentUser: User | null = null;
   pageSize = 9; // blogs per page
   currentPage = 1;
-  courses: any[] = [];
+  courses: Course[] = [];
 
-  constructor(private router: Router, private courseService: CoursesService) {}
+  constructor(
+    private courseService: CoursesService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.courseService.getAllCourses().subscribe({
-      next: (data) => {
-        this.courses = data;
-        // this.updatePagedCourses();
-      },
-      error: (error) => console.error('Error loading courses:', error)
-    });
+    this.currentUser = this.authService.getCurrentUser();
+    this.loadCourses();
   }
 
-  
+  loadCourses() {
+    if (!this.currentUser) {
+      return;
+    }
+    const isStudent = this.authService.isStudent();
+    const isInstructor = this.authService.isInstructor();
+    if (isStudent) {
+      this.courseService
+        .getInstructorCourses(this.currentUser?.userId)
+        .subscribe({
+          next: (response) => {
+            this.courses = response;
+          },
+          error: (error) =>
+            console.error('Error loading student courses:', error),
+        });
+    }
 
-  //was used for my account page to load instructor courses
-  // if (this.instructorId) {
-  //   this.courseService.getInstructorCourses(this.instructorId).subscribe({
-  //     next: (data) => {
-  //       this.courses = data;
-  //       console.log('Instructor Courses from grid:', this.courses);
-  //     },
-  //     error: (error) => console.error('Error loading instructor courses:', error)
-  //   // Load courses for a specific instructor
-  //   });
-  // } else {
-  //   // Load all courses (for the general courses page)
-  // }
+    if (isInstructor) {
+      this.courseService
+        .getInstructorCourses(this.currentUser?.userId)
+        .subscribe({
+          next: (response) => {
+            this.courses = response;
+          },
+          error: (error) =>
+            console.error('Error loading instructor courses:', error),
+        });
+    }
+  }
 
   pageNumbers(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);

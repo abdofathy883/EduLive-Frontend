@@ -1,5 +1,5 @@
 <!-- Instructor -->
- @if (currentUser.roles?.[0] === 'Instructor') {
+ @if (isInstructor) {
    <section class="container my-3">
      <ul class="nav nav-tabs" id="myTab" role="tablist">
        <li class="nav-item" role="presentation">
@@ -39,7 +39,7 @@
          aria-labelledby="all-reports-tab"
          tabindex="0"
        >
-         <table class="table table-striped">
+         <table class="content-table">
            <thead>
              <tr>
                <th>اسم الطالب</th>
@@ -48,7 +48,16 @@
                <th>القيم/الأخلاق التي تم تناولها</th>
              </tr>
            </thead>
-           <tbody></tbody>
+           <tbody>
+              @for (report of pagedReports; track $index) {
+                <tr>
+                  <td data-cell="اسم الطالب">{{ report.studentName }}</td>
+                  <td data-cell="ما تم حفظه من القراءن">{{ report.revision }}</td>
+                  <td data-cell="مواضيع التجويد المشروحة">{{ report.revisionTopics }}</td>
+                  <td data-cell="القيم/الأخلاق التي تم تناولها">{{ report.values }}</td>
+                </tr>
+              }
+           </tbody>
          </table>
           @if (totalPages > 1) {
      <nav>
@@ -131,10 +140,10 @@
  }
 
 <!-- Student Report -->
- @if (currentUser.roles?.[0] === 'Student') {
+ @if (isStudent) {
    <section class="container my-3">
      <h3 class="mb-3">تقرير الطالب</h3>
-     <table class="table table-striped">
+     <table class="content-table">
        <thead>
          <tr>
            <th>اسم الطالب</th>
@@ -143,7 +152,16 @@
            <th>القيم/الأخلاق التي تم تناولها</th>
          </tr>
        </thead>
-       <tbody></tbody>
+       <tbody>
+          @for (report of pagedReports; track $index) {
+            <tr>
+              <td data-cell="اسم الطالب">{{ report.studentName }}</td>
+              <td data-cell="ما تم حفظه من القراءن">{{ report.revision }}</td>
+              <td data-cell="مواضيع التجويد المشروحة">{{ report.revisionTopics }}</td>
+              <td data-cell="القيم/الأخلاق التي تم تناولها">{{ report.values }}</td>
+            </tr>
+          }
+       </tbody>
      </table>
    </section>
  }

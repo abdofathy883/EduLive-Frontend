@@ -21,7 +21,7 @@ export class BlogPostComponent implements OnInit {
   constructor(private blogService: BlogService) {}
   
   ngOnInit(): void {
-    this.blogService.getBlogById(this.currentBlogId).subscribe(post => {
+    this.blogService.getById(this.currentBlogId).subscribe(post => {
       this.blogPost = {
         id: post.id,
         title: post.title,
@@ -31,6 +31,4 @@ export class BlogPostComponent implements OnInit {
       };
     });
   }
-
-  
 }

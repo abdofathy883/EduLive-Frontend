@@ -2,97 +2,119 @@ import { Component, OnInit } from '@angular/core';
 import { ReviewsService } from '../../Services/Reviews/reviews.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CoursesService } from '../../Services/Courses/courses.service';
 import { AuthService } from '../../Services/Auth/auth.service';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CourseReview } from '../../Models/Course/course';
+import { User } from '../../Models/User/user';
 
 @Component({
   selector: 'app-course-reviews',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './course-reviews.component.html',
   styleUrl: './course-reviews.component.css',
 })
 export class CourseReviewsComponent implements OnInit {
   isLoading: boolean = false;
+  courseId: number = 0;
+  currentUser: User | null = null;
+  reviewForm!: FormGroup;
   rating: number = 0;
-  comment: string = '';
+  errorMessage: string = '';
+  successMessage: string = '';
 
-  course!: any;
-  instructor!: any;
-  review: CourseReview = {
-    courseId: 0,
-    studentId: '',
-    rating: 0,
-    comment: '',
-  };
+  averageRating: number = 0;
+  reviewsList: any[] = [];
 
   constructor(
     private reviewsService: ReviewsService,
     private route: ActivatedRoute,
-    private router: Router,
-    private coursesService: CoursesService,
-    private authService: AuthService
+    private authService: AuthService,
+    private fb: FormBuilder
   ) {}
   ngOnInit(): void {
-    this.loadCourse();
+    this.currentUser = this.authService.getCurrentUser();
+
+    const courseIdParam = this.route.snapshot.paramMap.get('id');
+    this.courseId = courseIdParam
+      ? Number(courseIdParam)
+      : Number(courseIdParam);
+
+      this.reviewsService.getAverageRatingByCourseId(this.courseId).subscribe({
+      next: (response) => {
+        this.averageRating = response;
+        console.log('Average Rating:', this.averageRating);
+      },
+      error: (error) => {
+        console.error('Error fetching average rating:', error);
+      },
+    });
+
+    this.reviewsService.getReviewsByCourseId(this.courseId).subscribe({
+      next: (response) => {
+        this.reviewsList = response;
+        console.log('Reviews List:', this.reviewsList);
+      },
+      error: (error) => {
+        console.error('Error fetching reviews:', error);
+      },
+    });
+
+    this.initializeReview();
   }
 
   setRating(rating: number) {
     this.rating = rating;
-  }
-
-  loadCourse() {
-    const currentCourseId = this.route.snapshot.paramMap.get('id');
-    if (!currentCourseId) {
-      this.router.navigate(['/courses']);
-      console.error('No course ID found in the route parameters');
-      return;
-    }
-    console.log('Current Course ID:', currentCourseId);
-
-    this.coursesService.getCourseById(+currentCourseId).subscribe({
-      next: (course) => {
-        this.course = course;
-        this.loadStudent();
-      },
-      error: (error) => {
-        console.error('Error fetching course details:', error);
-        this.router.navigate(['/courses']);
-      },
-    });
-  }
-
-  loadStudent() {
-    this.authService.currentUser$.subscribe((user) => {
-      this.instructor = user;
-
-      if (this.course && this.instructor) {
-        this.initializeReview();
-      }
-    });
+    this.reviewForm.patchValue({ rating: rating });
   }
 
   initializeReview() {
-    this.review = {
-      courseId: this.course.id,
-      studentId: this.instructor.id,
-      rating: this.rating,
-      comment: this.comment,
-    };
-    console.log('Review:', this.review);
+    this.reviewForm = this.fb.group({
+      rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
+      comment: [''],
+      courseId: [this.courseId],
+      userId: [this.currentUser?.userId],
+    });
+  }
+
+  getUserRole() {
+    return;
   }
 
   submit() {
-    this.review.rating = this.rating;
-    this.review.comment = this.comment;
+    if (!this.currentUser) {
+      this.errorMessage = 'لا يمكنك إضافة مراجعة إلا بعد تسجيل الدخول';
+      return;
+    }
+    const isStudent: boolean = this.authService.isStudent();
+    if (!isStudent) {
+      this.errorMessage = 'يُسمح للطلاب فقط بإضافة مراجعات';
+      return;
+    }
+    if (this.reviewForm.invalid) {
+      this.isLoading = false;
+      this.errorMessage = 'يرجى التأكد من صحة البيانات المدخلة';
+      return;
+    }
 
-    this.reviewsService.AddReview(this.review).subscribe({
+    const reviewData: CourseReview = {
+      courseId: this.courseId,
+      studentId: this.currentUser.userId,
+      rating: this.reviewForm.get('rating')?.value,
+      comment: this.reviewForm.get('comment')?.value,
+    };
+
+    this.reviewsService.AddReview(reviewData).subscribe({
       next: (response) => {
         console.log('Review created successfully:', response);
+        this.successMessage = 'تم إضافة المراجعة بنجاح';
+        this.reviewForm.reset();
+        this.rating = 0;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error creating review:', error);
+        this.errorMessage = 'حدث خطأ أثناء إضافة المراجعة';
+        this.isLoading = false;
       },
     });
   }

@@ -1,40 +1,37 @@
 <section class="container pt-5">
   <div class="row">
     <div class="col-4">
-      <!-- <div>
-        <a href="">
-          <i class="bi bi-heart me-3"></i>
-          <span>اضف الى قائمة الامنيات</span>
-        </a>
-      </div> -->
-      <h3>التصنيف: {{category?.title}}</h3>
-      <h5>عدد الحصص {{ course?.nuOfLessons}}</h5>
-      @if(course?.salePrice){
-        <p class="text-center pt-3">السعر بعد الخصم: {{ course?.salePrice }}$</p>
+      <h5>التصنيف: {{ course.categoryName }}</h5>
+      <br />
+      <h5>عدد الحصص {{ course.nuOfLessons }}</h5>
+      <br />
+      <p>
+        المعلم <br />
+        {{ course.instructorName }}
+      </p>
+      <p class="text-center pt-3">سعر الاشتراك: {{ course.originalPrice }}$</p>
+      @if(course.salePrice){
+      <p class="text-center pt-3">السعر بعد الخصم: {{ course.salePrice }}$</p>
       }
-      <p class="text-center pt-3">سعر الاشتراك: {{ course?.originalPrice }}$</p>
-      <button class="subscribe-btn" (click)="PurchaseCourse(paymentData)">اشترك الان</button>
+      <button class="subscribe-btn" (click)="PurchaseCourse(paymentData)">
+        اشترك الان
+      </button>
+      @if (paymentErrorMessage) {
+        <div class="alert alert-danger" role="alert">
+          {{ paymentErrorMessage }}
+        </div>
+      }
+      @if (paymentSuccessMessage) {
+        <div class="alert alert-success" role="alert">
+          {{ paymentSuccessMessage }}
+        </div>
+      }
     </div>
     <div class="col-8">
-      <h1>{{ course?.title }}</h1>
-      <p>{{ course?.description }}</p>
+      <h1>{{ course.title }}</h1>
       <img src="/assets/minimalism4.jpg" width="100%" height="350px" alt="" />
-      <img [src]="course?.courseImage" width="100%" height="350px" alt="" />
-      <div class="row">
-        <div class="col-4">
-          <p>
-            المعلم <br />
-            {{ instructor?.firstName }} {{ instructor?.lastName }}
-          </p>
-        </div>
-        <div class="col-4">
-          <p>
-            عدد المشتركين <br />
-            5000
-          </p>
-        </div>
-        <div class="col-4"></div>
-      </div>
+      <img [src]="course.image" width="100%" height="350px" alt="" />
+
       <div class="mt-4">
         <!-- Tabs navigation -->
         <ul class="nav nav-tabs" id="courseTabs" role="tablist">
@@ -76,7 +73,7 @@
             role="tabpanel"
             aria-labelledby="course-description-tab"
           >
-            <p>{{ course?.description }}</p>
+            <p>{{ course.description }}</p>
           </div>
           <div
             class="tab-pane fade"

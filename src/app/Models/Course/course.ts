@@ -10,6 +10,21 @@ export interface NewCourse {
   certificateSerialNumber: string;
 }
 
+export interface Course {
+  id: number;
+  title: string;
+  description: string;
+  nuOfLessons: number;
+  originalPrice: number;
+  salePrice: number;
+  image: string;
+  categoryId: string;
+  categoryName: string;
+  instructorId: string;
+  instructorName: string;
+  certificateSerialNumber?: string; // Optional field
+}
+
 export interface CourseReview {
   studentId: string;
   courseId: number;

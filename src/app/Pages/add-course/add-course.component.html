@@ -1,5 +1,5 @@
 <section class="container my-3">
-  <form action="" [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
     <div class="row mb-3">
       <div class="col">
         <label for="course-name" class="form-label">عنوان الدورة</label>
@@ -12,7 +12,11 @@
       </div>
       <div class="col">
         <label for="category" class="form-label">التصنيف</label>
-        <select class="form-select" id="categoryId" formControlName="categoryId">
+        <select
+          class="form-select"
+          id="categoryId"
+          formControlName="categoryId"
+        >
           <option selected disabled>اختر التصنيف</option>
           @if (CategoriesList.length == 0) {
           <option disabled>لا توجد تصنيفات</option>
@@ -22,13 +26,15 @@
         </select>
       </div>
     </div>
+
     <div class="row mb-3">
-      <label for="course-description" class="form-label">الوصف</label>
+      <label for="description" class="form-label">الوصف
       <textarea
-        class="form-control"
+        class="form-control mt-2"
         id="description"
         formControlName="description"
       ></textarea>
+      </label>
     </div>
     <!-- rich text editor -->
 
@@ -77,6 +83,7 @@
         />
       </div>
     </div>
+
     <button type="submit" class="btn btn-primary">
       @if (loading) {
       <span

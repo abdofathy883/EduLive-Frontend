@@ -42,7 +42,7 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.blogService.getBlogs().subscribe((blogs) => {
+    this.blogService.getAll().subscribe((blogs) => {
       console.log(blogs);
       this.Blogs = blogs;
     });

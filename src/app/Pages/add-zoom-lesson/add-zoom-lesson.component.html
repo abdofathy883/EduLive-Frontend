@@ -3,10 +3,14 @@
   <button class="btn btn-primary mt-3" (click)="connectZoomAccount()">
     ربط حسابك ب Zoom
   </button>
-  } 
-  @if (status) {
+  } @if (status) {
   <h2>اضافة حصة جديدة عن طريق Zoom</h2>
 
+  @if (Courses.length === 0) {
+  <div class="alert alert-warning" role="alert">
+    لا توجد دورات تعليمية متاحة. يرجى إضافة دورة قبل إضافة حصة.
+  </div>
+  }
   <form action="" class="mt-3" (Submit)="onSubmit()">
     <div class="row mb-3">
       <div class="col">
@@ -24,21 +28,16 @@
       </div>
     </div>
 
-    <div class="row mb-3">
-      <div class="col">
-        <label for="description" class="form-label">وصف الحصة</label>
-        <textarea class="form-control" id="description" rows="3"></textarea>
-      </div>
-      <div class="col">
-        <label for="startTime" class="form-label">وقت البدء</label>
-        <input type="datetime-local" class="form-control" id="startTime" />
-      </div>
-    </div>
-    
+
+
     <div class="row mb-3">
       <div class="col">
         <label for="duration" class="form-label">المدة</label>
         <input type="number" class="form-control" id="duration" />
+      </div>
+      <div class="col">
+        <label for="startTime" class="form-label">وقت البدء</label>
+        <input type="datetime-local" class="form-control" id="startTime" />
       </div>
       <div class="col">
         <label for="studentId" class="form-label">الطالب</label>
@@ -50,12 +49,22 @@
         </select>
       </div>
     </div>
-    
+
+    <div class="row">
+      <label for="description" class="form-label">وصف الحصة
+        <textarea class="form-control mt-2" id="description" rows="3"></textarea></label>
+    </div>
+
     <button class="btn btn-primary" (click)="onSubmit()">
       @if (loading) {
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true">جار الاضافة...</span>
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+        >جار الاضافة...</span
+      >
       } @else {
-        <span>اضافة حصة</span>
+      <span>اضافة حصة</span>
       }
     </button>
   </form>

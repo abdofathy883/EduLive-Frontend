@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    // debugger;
     this.loading = true;
     if (this.loginForm.invalid) {
       this.loading = false;
@@ -50,31 +51,32 @@ export class LoginComponent implements OnInit {
         password: this.loginForm.value.password,
       };
 
-      this.authService.login(loginData).subscribe({
+      this.authService.Login(loginData).subscribe({
         next: (response) => {
+          this.loading = false;
           console.log(response);
-          if (response.isAuthenticated) {
-            localStorage.setItem('token', response.token);
-            const currentUser = {
-              id: response.userId,
-              firstName: response.firstName,
-              lastName: response.lastName,
-              email: response.email,
-              roles: response.roles,
-              dateOfBirth: response.dateOfBirth,
-              phoneNumber: response.phoneNumber,
-              bio: response.bio,
-              CV: response.CV,
-              introVideo: response.introVideo,
-              concurrencyStamp: response.concurrencyStamp
-            };
-            localStorage.setItem('user', JSON.stringify(currentUser));
-            this.authService.setCurrentStatus(currentUser);
-            this.router.navigate(['/my-account']);
-          } else {
-            console.log('Authentication failed');
-            this.loading = false;
-          }
+          console.log(`token from login: ${response.token}`);
+          this.router.navigate(['/my-account']);
+
+          // if (response.isAuthenticated) {
+          //   localStorage.setItem('token', response.token);
+          //   // const currentUser = {
+          //   //   id: response.userId,
+          //   //   firstName: response.firstName,
+          //   //   lastName: response.lastName,
+          //   //   email: response.email,
+          //   //   roles: response.roles,
+          //   //   dateOfBirth: response.dateOfBirth,
+          //   //   phoneNumber: response.phoneNumber,
+          //   //   bio: response.bio,
+          //   //   CV: response.CV,
+          //   //   introVideo: response.introVideo,
+          //   //   concurrencyStamp: response.concurrencyStamp
+          //   // };
+          // } else {
+          //   console.log('Authentication failed');
+          //   this.loading = false;
+          // }
         },
         error: (error) => {
           console.error('Login error:', error);

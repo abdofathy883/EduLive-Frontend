@@ -3,8 +3,14 @@
   --primary-color: #ef9a1c;
   --secondary-color: #981410;
 }
+
+body {
+  font-family: "Noto Sans Arabic", sans-serif;
+  /* background-color: #f8f9fa;
+  color: #212529; */
+}
 .form-control:focus {
-  box-shadow: 0 0 0 0.10rem #e9b970;
+  box-shadow: 0 0 0 0.1rem #e9b970;
   border: 1px solid #f7d29c;
 }
 
@@ -15,15 +21,78 @@ input {
 p {
   font-size: 18px;
 }
-.form-button{
-    background-color: var(--primary-color);
-    border: none;
-    border-radius: 35px;
-    padding: 10px 25px;
-    color: white;
-    font-size: 18px;
+.form-button {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 35px;
+  padding: 10px 25px;
+  color: white;
+  font-size: 18px;
 }
 
 .iti {
   display: block !important;
+}
+
+.content-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 18px;
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/* .content-table thead tr {
+  background-color: var(--primary-color);
+  color: white;
+  text-align: right;
+  font-weight: 500;
+} */
+
+.content-table th {
+  background-color: var(--primary-color);
+  color: white;
+  text-align: right;
+  font-weight: 500;
+}
+.content-table th,
+.content-table td {
+  padding: 12px 15px;
+}
+
+.content-table tbody tr {
+  border-bottom: 1px solid gray;
+  &:hover {
+    background-color: rgb(231, 231, 231);
+  }
+}
+
+.content-table tbody tr:nth-of-type(even) {
+  background-color: #0c6cfd33;
+  &:hover {
+    background-color: rgb(231, 231, 231);
+  }
+}
+
+.content-table tbody tr:last-of-type {
+  border-bottom: 4px solid #0c6efd;
+}
+
+@media (max-width: 750px) {
+  th {
+    display: none;
+  }
+  td {
+    display: block;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  td::before {
+    content: attr(data-cell) ": ";
+    font-weight: bold;
+  }
 }

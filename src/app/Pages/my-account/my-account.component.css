@@ -1,7 +1,17 @@
-/* section{
-    height: 80vh;
-} */
-
 i{
     font-size: 30px;
+}
+
+button.nav-link {
+  color: black;
+  transition: color 0.3s ease;
+  font-size: 18px;
+}
+
+button.nav-link:hover {
+  color: var(--primary-color);
+}
+
+button.nav-link.active {
+  color: var(--primary-color);
 }

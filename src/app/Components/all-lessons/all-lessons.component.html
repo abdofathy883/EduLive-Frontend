@@ -1,6 +1,11 @@
 <section class="container">
     <h3>كل الحصص</h3>
-    <table class="table table-stripe">
+    @if (lessons.length === 0) {
+        <div class="alert alert-warning" role="alert">
+            لا توجد حصص متاحة.
+        </div>
+    }
+    <table class="content-table">
         <thead>
             <tr>
                 <th>العنوان</th>
@@ -15,13 +20,13 @@
         <tbody>
             @for (lesson of lessons; track $index) {
                 <tr>
-                    <td>{{ lesson.topic }}</td>
-                    <td>{{ lesson.course.title }}</td>
-                    <td>{{ lesson.instructor.name }}</td>
-                    <td>{{ lesson.joinurl }}</td>
-                    <td>{{ lesson.starturl }}</td>
-                    <td>{{ lesson.startTime }}</td>
-                    <td>{{ lesson.duration }}</td>
+                    <td data-cell="العنوان">{{ lesson.topic }}</td>
+                    <td data-cell="الدورة">{{ lesson.course.title }}</td>
+                    <td data-cell="المعلم">{{ lesson.instructor.name }}</td>
+                    <td data-cell="رابط الدخول">{{ lesson.joinurl }}</td>
+                    <td data-cell="رابط البدء">{{ lesson.starturl }}</td>
+                    <td data-cell="ميعاد البداية">{{ lesson.startTime }}</td>
+                    <td data-cell="المدة">{{ lesson.duration }}</td>
                 </tr>
             }
         </tbody>

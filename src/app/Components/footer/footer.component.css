@@ -1,10 +1,4 @@
 footer {
-    /* background-image: url('/assets/footer-background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 45vh;
-    position: relative; */
     position: relative;
     background-image: url('/assets/footer-background.jpg');
     background-size: cover;
@@ -12,22 +6,13 @@ footer {
     background-position: center;
     color: white;
     z-index: 1;
-    /* height: 45vh; */
 }
 
 footer::before {
-    /* content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(73, 50, 0, 0.7); /* Adjusted the overlay color with better opacity */
-    /* z-index: 1;  */
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba(73, 50, 0, 0.75); /* adjust opacity as needed */
+    background-color: rgba(73, 50, 0, 0.75);
     z-index: -1;
 }
 
@@ -36,7 +21,7 @@ footer::before {
     padding: 20px;
     color: white;
     position: relative;
-    z-index: 2;  /* Ensure social icons appear above the overlay */
+    z-index: 2;
 }
 
 .contact {
@@ -54,4 +39,9 @@ a {
 
 p{
     margin: 0;
+}
+
+.contact-span{
+    font-size: 18px;
+    color: white;
 }

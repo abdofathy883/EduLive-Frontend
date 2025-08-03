@@ -1,15 +1,15 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiService } from '../api-service/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl = "http://localhost:5153/api/Payments";
-  constructor(private http: HttpClient) { }
+  private apiUrl = "Payments";
+  constructor(private api: ApiService) { }
 
   CreateCheckoutSession(paymentData: any): Observable<{ url: string }> {
-    return this.http.post<{ url: string }>(`${this.apiUrl}/create-checkout-session`, paymentData);
+    return this.api.post<{ url: string }>(`${this.apiUrl}/create-checkout-session`, paymentData);
   }
 }

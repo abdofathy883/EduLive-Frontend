@@ -37,12 +37,12 @@ export class ChatComponent implements OnInit {
     //   this.userRole = this.currentUser.roles[0];
     // }
 
-    this.chatService.startConnection(this.currentUser);
+    // this.chatService.startConnection(this.currentUser);
 
-    this.chatService.onReceiveMessage((sender, message) => {
-      if (!this.messageMap[sender]) this.messageMap[sender] = [];
-      this.messageMap[sender].push({ user: sender, message });
-    });
+    // this.chatService.onReceiveMessage((sender, message) => {
+    //   if (!this.messageMap[sender]) this.messageMap[sender] = [];
+    //   this.messageMap[sender].push({ user: sender, message });
+    // });
   }
 
   selectInstructor(instructor: any) {

@@ -38,7 +38,14 @@ export interface UpdateUser {
   introVideo?: File;
 }
 
-export interface AuthResponse {
+export interface TokenPayload {
+  exp: number;
+  sub: string;
+  role: string;
+  [key: string]: any;
+}
+
+export interface User {
   isAuthenticated: boolean;
   userId: string;
   userName: string;

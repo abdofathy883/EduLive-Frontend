@@ -22,8 +22,8 @@
 
 <section class="container my-5">
   <h3 class="mb-3">املأ النموذج للانضمام إلينا</h3>
+  <p>{{ responseMessage }}</p>
   <form
-    action=""
     [formGroup]="instructorForm"
     enctype="multipart/form-data"
     (ngSubmit)="onSubmit()"
@@ -31,6 +31,7 @@
     <div class="row mb-3">
       <div class="col">
         <label for="first-name" class="form-label">الاسم الاول</label>
+        <span class="text-danger">*</span>
         <input
           type="text"
           class="form-control"
@@ -44,6 +45,7 @@
       </div>
       <div class="col">
         <label for="last-name" class="form-label">الاسم الاخير</label>
+        <span class="text-danger">*</span>
         <input
           type="text"
           class="form-control"
@@ -56,9 +58,11 @@
         }
       </div>
     </div>
+
     <div class="row mb-3">
       <div class="col">
         <label for="phone" class="form-label">الهاتف</label>
+        <span class="text-danger">*</span>
         <input
           type="tel"
           class="form-control"
@@ -73,6 +77,7 @@
       </div>
       <div class="col">
         <label for="email" class="form-label">البريد الالكتروني</label>
+        <span class="text-danger">*</span>
         <input
           type="email"
           class="form-control"
@@ -85,6 +90,33 @@
         }
       </div>
     </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="birthdate" class="form-label">تاريخ الميلاد</label>
+        <input
+          type="date"
+          class="form-control"
+          id="birthdate"
+          formControlName="dateOfBirth"
+        />
+      </div>
+      <div class="col">
+        <label for="password" class="form-label">كلمة المرور</label>
+        <span class="text-danger">*</span>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          formControlName="password"
+        />
+        @if (instructorForm.get("password")?.invalid &&
+        instructorForm.get("password")?.touched) {
+        <small class="text-danger">كلمة المرور مطلوبة</small>
+        }
+      </div>
+    </div>
+
     <div class="row mb-3">
       <div class="col">
         <label for="cv" class="form-label">السيرة الذاتية</label>
@@ -108,50 +140,20 @@
         />
       </div>
     </div>
+
     <div class="row mb-3">
       <label for="bio" class="form-label"
-        >ff
+        >عرف نفسك
         <textarea
-          class="form-control"
+          class="form-control mt-2"
           id="bio"
           rows="3"
           formControlName="bio"
         ></textarea>
       </label>
     </div>
-    <div class="row mb-3">
-      <div class="col">
-        <label for="birthdate" class="form-label">تاريخ الميلاد</label>
-        <input
-          type="date"
-          class="form-control"
-          id="birthdate"
-          formControlName="dateOfBirth"
-        />
-      </div>
-      <div class="col">
-        <label for="password" class="form-label">كلمة المرور</label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          formControlName="password"
-        />
-        @if (instructorForm.get("password")?.invalid &&
-        instructorForm.get("password")?.touched) {
-        <small class="text-danger">كلمة المرور مطلوبة</small>
-        }
-      </div>
-    </div>
-    <!-- <button type="submit" class="btn btn-primary" [disabled]="loading">
-        @if (!loading) {
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          جار ارسال الطلب...
-        } @else {
-          <span>ارسال</span>
-        }
-    </button> -->
-    <button type="submit" class="form-button" [disabled]="loading">
+
+    <button type="submit" class="form-button">
       @if (!loading) { ارسال} @else {
       <span
         class="spinner-border spinner-border-sm"

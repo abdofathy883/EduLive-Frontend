@@ -1,0 +1,92 @@
+<section class="container my-5">
+  <!-- User Info Card -->
+  <div class="card mb-4 p-3">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h5 class="mb-1">
+          {{ currentUser?.firstName + " " + currentUser?.lastName }}
+        </h5>
+        <p class="mb-0">{{ currentUser?.email }}</p>
+        <p class="mb-0">{{ currentUser?.phoneNumber }}</p>
+        <h4>حساب طالب</h4>
+      </div>
+      <div class="col-md-4 text-end d-flex justify-content-end">
+        <button
+          class="card h-100 text-decoration-none text-dark btn border-0"
+          (click)="Logout()"
+        >
+          <div class="card-body">
+            <i class="bi bi-box-arrow-right fs-2 mb-2 text-danger"></i>
+            <h6 class="card-title text-danger">تسجيل الخروج</h6>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+    <li class="nav-item">
+      <button
+        class="nav-link active"
+        data-bs-toggle="tab"
+        data-bs-target="#dashboard"
+      >
+        لوحة التحكم
+      </button>
+    </li>
+    <li class="nav-item">
+      <button
+        class="nav-link"
+        data-bs-toggle="tab"
+        data-bs-target="#lesson-reports"
+      >
+        تقارير الحصص
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#lessons">
+        الحصص
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#messages">
+        الرسائل
+      </button>
+    </li>
+    <li class="nav-item">
+      <button
+        class="nav-link"
+        data-bs-toggle="tab"
+        data-bs-target="#update-user"
+      >
+        تعديل الحساب
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content mt-3" id="mainTabsContent">
+    <div class="tab-pane fade show active" id="dashboard">
+      <h3>الدورات الحالية</h3>
+      <app-course-grid [instructorId]="currentUser.id"></app-course-grid>
+    </div>
+
+    <div class="tab-pane fade" id="lesson-reports">
+      <app-lesson-report></app-lesson-report>
+    </div>
+  </div>
+
+  <!-- Lessons Tab -->
+  <div class="tab-pane fade" id="lessons">
+    <app-all-lessons></app-all-lessons>
+  </div>
+
+  <!-- Messages Tab -->
+  <div class="tab-pane fade" id="messages">
+    <app-chat></app-chat>
+  </div>
+
+  <!-- Update User Tab -->
+  <div class="tab-pane fade" id="update-user">
+    <app-update-user></app-update-user>
+  </div>
+</section>

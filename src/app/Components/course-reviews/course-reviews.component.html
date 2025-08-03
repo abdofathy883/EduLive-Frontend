@@ -1,28 +1,100 @@
-<form class="row mb-3" (ngSubmit)="submit()">
-    <div class="mb-3">
-        <label class="form-label">قيم الدورة</label>
-        <br>
-        @for (star of [1, 2, 3, 4, 5]; track star) {
-            <span>
-                <i class="bi" (click)="setRating(star)" 
-                    [ngClass]="star <= rating ? 'bi-star-fill text-warning' : 'bi-star'"
-                    style="cursor:pointer; font-size: 1.2rem; padding-left: 8px;">
-                </i>
-            </span>
-        }
-    </div>
+@if (errorMessage) {
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  {{ errorMessage }}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+}
 
-    <div class="mb-3">
-        <label class="form-label" for="comment">اكتب مراجعتك</label>
-        <textarea class="form-control" id="comment" rows="3" 
-            [(ngModel)]="comment" name="comment"></textarea>
-    </div>
+<!-- Success Message -->
+@if (successMessage) {
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{ successMessage }}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+}
+<div>
+  <h4 class="mb-3">آراء الطلاب</h4>
+  <span>
+    متوسط التقييم:
+    <span class="text-warning">
+      {{ averageRating }}
+      <i class="bi bi-star-fill"></i>
+    </span>
+  </span>
 
-    @if (isLoading) {
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">جار الارسال...</span>
+</div>
+
+<div class="review-list mt-4">
+  @for (review of reviewsList; track $index) {
+    <div  class="mb-4 p-3 border rounded shadow-sm bg-light">
+      
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <strong>{{ review.studentName }}</strong>
+        <div class="text-warning">
+          <ng-container *ngFor="let star of [1,2,3,4,5]">
+            <i class="bi" [ngClass]="star <= review.rating ? 'bi-star-fill' : 'bi-star'"></i>
+          </ng-container>
         </div>
-    } @else {
-        <button type="submit" class="btn btn-primary mt-2" (click)="submit()">إرسال</button>
+      </div>
+      @if (review.comment) {
+        <p class="text-muted mb-0">
+          "{{ review.comment }}"
+        </p>
+      }
+    </div>
+  }
+</div>
+
+
+<form [formGroup]="reviewForm" class="row mb-3" (ngSubmit)="submit()">
+  <div class="mb-3">
+    <label class="form-label">قيم الدورة</label>
+    <br />
+    @for (star of [1, 2, 3, 4, 5]; track star) {
+    <span>
+      <i
+        class="bi"
+        (click)="setRating(star)"
+        [ngClass]="star <= rating ? 'bi-star-fill text-warning' : 'bi-star'"
+        style="cursor: pointer; font-size: 1.2rem; padding-left: 8px"
+      >
+      </i>
+    </span>
+    } @if (reviewForm.get('rating')?.invalid &&
+    reviewForm.get('rating')?.touched) {
+    <div class="text-danger small mt-1">يرجى اختيار تقييم</div>
     }
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label" for="comment">اكتب مراجعتك</label>
+    <textarea
+      class="form-control"
+      id="comment"
+      rows="3"
+      name="comment"
+      formControlName="comment"
+      placeholder="اكتب مراجعتك هنا..."
+    ></textarea>
+  </div>
+
+  <button class="form-button">
+    @if (isLoading) {
+    <span
+      class="spinner-border spinner-border-sm"
+      role="status"
+      aria-hidden="true"
+    ></span>
+    جاري الاضافة... } @else { اضافة تقييم }
+  </button>
 </form>

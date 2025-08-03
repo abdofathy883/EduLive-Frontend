@@ -27,6 +27,7 @@ export interface ZoomUserConnection {
   zoomUserId?: string;
   zoomEmail?: string;
   isConnected: boolean;
+  url: string;
 }
 
 export interface UpdateZoomMeetingRequest {

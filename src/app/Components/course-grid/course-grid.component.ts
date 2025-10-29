@@ -19,6 +19,7 @@ export class CourseGridComponent implements OnInit {
   pageSize = 9; // blogs per page
   currentPage = 1;
   courses: Course[] = [];
+  currentUserId: string = '';
 
   constructor(
     private enrollmentService: EnrollmentService,
@@ -26,7 +27,12 @@ export class CourseGridComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
     console.log(this.currentUser?.userId)
     this.loadCourses();
   }

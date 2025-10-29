@@ -24,6 +24,8 @@ export class CourseReviewsComponent implements OnInit {
 
   averageRating: number = 0;
   reviewsList: any[] = [];
+  currentUserId: string = '';
+  isStudent: boolean = false;
 
   constructor(
     private reviewsService: ReviewsService,
@@ -32,7 +34,17 @@ export class CourseReviewsComponent implements OnInit {
     private fb: FormBuilder
   ) {}
   ngOnInit(): void {
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
+    this.authService.isStudent().subscribe((student) => {
+      if (student) {
+        this.isStudent = true
+      }
+    })
 
     const courseIdParam = this.route.snapshot.paramMap.get('id');
     this.courseId = courseIdParam
@@ -85,8 +97,8 @@ export class CourseReviewsComponent implements OnInit {
       this.errorMessage = 'لا يمكنك إضافة مراجعة إلا بعد تسجيل الدخول';
       return;
     }
-    const isStudent: boolean = this.authService.isStudent();
-    if (!isStudent) {
+    
+    if (!this.isStudent) {
       this.errorMessage = 'يُسمح للطلاب فقط بإضافة مراجعات';
       return;
     }

@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 export class AllLessonsComponent implements OnInit {
   currentUser: any = null;
   userRole: string = '';
+  currentUserId: string = '';
 
   lessons: any[] = [];
   meetLessons: any[] = [];
@@ -24,7 +25,12 @@ export class AllLessonsComponent implements OnInit {
     private zoomService: ZoomService
   ) {}
   ngOnInit(): void {
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
     this.loadLessons();
   }
 

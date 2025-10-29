@@ -15,6 +15,7 @@ export class LessonReportComponent implements OnInit {
   isLoading: boolean = false;
   isStudent: boolean = false;
   isInstructor: boolean = false;
+  currentUserId: string = '';
 
   pageSize = 10;
   currentPage = 1;
@@ -25,9 +26,22 @@ export class LessonReportComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.currentUser = this.authService.getCurrentUser();
-    this.isInstructor = this.authService.isInstructor();
-    this.isStudent = this.authService.isStudent();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
+    this.authService.isStudent().subscribe((student) => {
+      if (student) {
+        this.isStudent = true
+      }
+    });
+    this.authService.isInstructor().subscribe((instructor) => {
+      if (instructor) {
+        this.isInstructor = true
+      }
+    })
 
     this.loadReports();
   }

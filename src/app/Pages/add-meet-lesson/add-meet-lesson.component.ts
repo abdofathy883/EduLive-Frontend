@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MeetService } from '../../Services/GoogleMeet/meet-service.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
 import { MeetAuthService } from '../../Services/GoogleMeet/GoogleMeetAuth/meet-auth.service';
 import { CoursesService } from '../../Services/Courses/courses.service';
 import { AuthService } from '../../Services/Auth/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../Models/User/user';
+import { EnrollmentService } from '../../Services/enrollment/enrollment.service';
 
 @Component({
   selector: 'app-add-meet-lesson',
-  imports: [],
+  imports: [ɵInternalFormsSharedModule, ReactiveFormsModule],
   templateUrl: './add-meet-lesson.component.html',
   styleUrl: './add-meet-lesson.component.css'
 })
@@ -25,7 +26,7 @@ export class AddMeetLessonComponent implements OnInit {
   constructor(
     private meetService: MeetService,
     private meetAuthService: MeetAuthService,
-    private courseService: CoursesService,
+    private enrollmentService: EnrollmentService,
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router
@@ -35,7 +36,7 @@ export class AddMeetLessonComponent implements OnInit {
     this.currentUser = this.authService.getCurrentUser();
     // this.getUserStatus();
     this.initializeForm();
-    // this.loadNeededData();
+    this.loadNeededData();
   }
 
   initializeForm() {
@@ -43,7 +44,7 @@ export class AddMeetLessonComponent implements OnInit {
       topic: ['', [Validators.required]],
       description: [''],
       startTime: ['', [Validators.required]],
-      duration: [60, [Validators.required, Validators.min(15)]],
+      duration: [45, [Validators.required, Validators.min(15)]],
       courseId: ['', [Validators.required]],
       studentId: ['', [Validators.required]]
     });
@@ -51,7 +52,7 @@ export class AddMeetLessonComponent implements OnInit {
 
   loadNeededData() {
     this.instructorId = this.currentUser.userId;
-      this.courseService.getInstructorCourses(this.instructorId).subscribe({
+      this.enrollmentService.getInstructorCourses(this.instructorId).subscribe({
         next: (courses) => {
           this.Courses = courses;          
         },
@@ -59,7 +60,7 @@ export class AddMeetLessonComponent implements OnInit {
           console.error('Error fetching courses:', error);
         }
       });
-      this.courseService.getStudentsByCourseId(this.Courses[0]?.id).subscribe({
+      this.enrollmentService.getStudentsByCourseId(this.Courses[0]?.id).subscribe({
         next: (students) => {
           this.students = students;
         },
@@ -96,6 +97,7 @@ export class AddMeetLessonComponent implements OnInit {
     this.loading = true;
     if (this.meetingForm.invalid) {
       this.loading = false;
+      this.meetingForm.markAllAsTouched();
       return;
     }
     this.meetingForm = {
@@ -111,4 +113,9 @@ export class AddMeetLessonComponent implements OnInit {
       }
     });
   }
+
+  hasError(controlName: string): boolean {
+  const control = this.meetingForm.get(controlName);
+  return control ? control.invalid && control.touched : false;
+}
 }

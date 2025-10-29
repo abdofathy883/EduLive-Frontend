@@ -6,12 +6,11 @@ import {
   UserLogin,
 } from './../../Models/User/user';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   BehaviorSubject,
   catchError,
-  first,
   map,
   Observable,
   tap,
@@ -66,7 +65,7 @@ export class AuthService {
   }
 
   register(registerData: RegisterStudent): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/register`, registerData).pipe(
+    return this.http.post<User>(`${this.apiUrl}/register-student`, registerData).pipe(
       map((response) => {
         return response;
       }),
@@ -83,7 +82,6 @@ export class AuthService {
     formData.append('email', registerData.email);
     formData.append('phoneNumber', registerData.phoneNumber);
     formData.append('password', registerData.password);
-    formData.append('confirmPassword', registerData.password);
     if (registerData.dateOfBirth) {
       formData.append('dateOfBirth', registerData.dateOfBirth.toString());
     }

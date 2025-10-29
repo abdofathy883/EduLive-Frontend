@@ -57,26 +57,6 @@ export class LoginComponent implements OnInit {
           console.log(response);
           console.log(`token from login: ${response.token}`);
           this.router.navigate(['/my-account']);
-
-          // if (response.isAuthenticated) {
-          //   localStorage.setItem('token', response.token);
-          //   // const currentUser = {
-          //   //   id: response.userId,
-          //   //   firstName: response.firstName,
-          //   //   lastName: response.lastName,
-          //   //   email: response.email,
-          //   //   roles: response.roles,
-          //   //   dateOfBirth: response.dateOfBirth,
-          //   //   phoneNumber: response.phoneNumber,
-          //   //   bio: response.bio,
-          //   //   CV: response.CV,
-          //   //   introVideo: response.introVideo,
-          //   //   concurrencyStamp: response.concurrencyStamp
-          //   // };
-          // } else {
-          //   console.log('Authentication failed');
-          //   this.loading = false;
-          // }
         },
         error: (error) => {
           console.error('Login error:', error);

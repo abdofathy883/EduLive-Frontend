@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CoursesService } from '../../Services/Courses/courses.service';
 import {
   FormBuilder,
@@ -6,8 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Category, NewCourse } from '../../Models/Course/course';
-import { AuthService } from '../../Services/Auth/auth.service';
+import { NewCourse } from '../../Models/Course/course';
 
 @Component({
   selector: 'app-add-course',
@@ -16,7 +15,7 @@ import { AuthService } from '../../Services/Auth/auth.service';
   styleUrl: './add-course.component.css',
 })
 export class AddCourseComponent implements OnInit {
-  private currentInstructor: any;
+  @Input() instructorId: string = '';
   loading: boolean = false;
   public CategoriesList: any[] = [];
   private courseImage!: File;
@@ -26,7 +25,6 @@ export class AddCourseComponent implements OnInit {
   constructor(
     private courseService: CoursesService,
     private fb: FormBuilder,
-    private authService: AuthService
   ) {}
   onFileSelected(event: any, field: string) {
     if (event.target.files.length > 0) {
@@ -47,12 +45,9 @@ export class AddCourseComponent implements OnInit {
       discountedPrice: [''],
       image: [null, Validators.required],
       nuOfLessons: ['', Validators.required],
-      instructorId: ['', Validators.required],
+      instructorId: [this.instructorId],
       certificateSerialNumber: ['test-serial-number'], // Placeholder, replace with actual logic if needed
     });
-
-    this.currentInstructor = this.authService.getCurrentUser();
-    this.courseForm.patchValue({ instructorId: this.currentInstructor });
   }
 
   loadCategories() {
@@ -67,10 +62,10 @@ export class AddCourseComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger;
     this.loading = true;
     if (this.courseForm.invalid) {
       this.loading = false;
+      this.courseForm.markAllAsTouched();
       return;
     }
     const course: NewCourse = {
@@ -81,7 +76,7 @@ export class AddCourseComponent implements OnInit {
       salePrice: this.courseForm.value.discountedPrice,
       nuOfLessons: this.courseForm.value.nuOfLessons,
       courseImage: this.courseImage,
-      instructorId: this.currentInstructor.userId,
+      instructorId: this.instructorId,
       // certificateSerialNumber: this.courseForm.value.certificateSerialNumber,
       certificateSerialNumber: ' test-serial-number', // Placeholder, replace with actual logic if needed
     };
@@ -97,4 +92,9 @@ export class AddCourseComponent implements OnInit {
       },
     });
   }
+
+  hasError(controlName: string): boolean {
+  const control = this.courseForm.get(controlName);
+  return control ? control.invalid && control.touched : false;
+}
 }

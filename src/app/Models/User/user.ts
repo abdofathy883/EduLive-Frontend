@@ -7,9 +7,6 @@ export interface RegisterStudent {
   password: string;
 }
 
-// export interface Student extends RegisterStudent {
-//   studentId: string;
-// }
 export interface RegisterInstructor {
   firstName: string;
   lastName: string;
@@ -20,7 +17,6 @@ export interface RegisterInstructor {
   introVideo: File;
   bio: string;
   password: string;
-  confirmPassword: string;
 }
 
 export interface UserLogin {
@@ -36,6 +32,7 @@ export interface UpdateUser {
   password?: string;
   cv?: File;
   introVideo?: File;
+  bio?: string;
 }
 
 export interface TokenPayload {
@@ -46,21 +43,20 @@ export interface TokenPayload {
 }
 
 export interface User {
-  isAuthenticated: boolean;
   userId: string;
-  userName: string;
   firstName: string;
   lastName: string;
   email: string;
-  roles: string[] | string;
-  dateOfBirth?: Date;
   phoneNumber: string;
+  dateOfBirth?: Date;
   bio?: string;
   CV?: string;
   introVideo?: string;
-  token: string;
   message?: string;
+  isAuthenticated: boolean;
+  roles: string[] | string;
+  token: string;
   refreshToken?: string;
   refreshTokenExpiration?: Date;
-  concurrencyStamp?: string;
+  isApproved?: boolean;
 }

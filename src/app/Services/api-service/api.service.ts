@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ApiService {
-private apiBaseUrl = environment.apiBaseUrl;
+  private apiBaseUrl = environment.apiBaseUrl;
   constructor(private http: HttpClient) { }
 
   get<T>(endpoint: string): Observable<T> {

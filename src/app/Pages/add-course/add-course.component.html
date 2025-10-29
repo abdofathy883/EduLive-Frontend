@@ -1,99 +1,120 @@
 <section class="container my-3">
-  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
-    <div class="row mb-3">
-      <div class="col">
-        <label for="course-name" class="form-label">عنوان الدورة</label>
-        <input
-          type="text"
-          class="form-control"
-          id="title"
-          formControlName="title"
-        />
-      </div>
-      <div class="col">
-        <label for="category" class="form-label">التصنيف</label>
-        <select
-          class="form-select"
-          id="categoryId"
-          formControlName="categoryId"
-        >
-          <option selected disabled>اختر التصنيف</option>
-          @if (CategoriesList.length == 0) {
-          <option disabled>لا توجد تصنيفات</option>
-          } @for (category of CategoriesList; track $index) {
-          <option [value]="category.id">{{ category.title }}</option>
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">اضافة دورة تعليمية جديدة</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+        <div class="row mb-3">
+          <div class="col">
+            <label for="course-name" class="form-label">عنوان الدورة</label>
+            <span class="text-danger ms-2">*</span>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              formControlName="title"
+              [class.is-invalid]="hasError('title')"
+            />
+          </div>
+          <div class="col">
+            <label for="category" class="form-label">التصنيف</label>
+            <span class="text-danger ms-2">*</span>
+            <select
+              class="form-select"
+              id="categoryId"
+              formControlName="categoryId"
+              [class.is-invalid]="hasError('categoryId')"
+            >
+              <option selected disabled>اختر التصنيف</option>
+              @if (CategoriesList.length == 0) {
+              <option disabled>لا توجد تصنيفات</option>
+              } @for (category of CategoriesList; track $index) {
+              <option [value]="category.id">{{ category.title }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="description" class="form-label"
+            >الوصف
+            <span class="text-danger ms-2">*</span>
+            <textarea
+              class="form-control mt-2"
+              id="description"
+              formControlName="description"
+              rows="4"
+              [class.is-invalid]="hasError('description')"
+            ></textarea>
+          </label>
+        </div>
+        <!-- rich text editor -->
+
+        <div class="row mb-3">
+          <div class="col">
+            <label for="originalPrice" class="form-label">السعر الاصلي</label>
+            <span class="text-danger ms-2">*</span>
+            <input
+              type="number"
+              class="form-control"
+              id="originalPrice"
+              formControlName="originalPrice"
+              [class.is-invalid]="hasError('originalPrice')"
+            />
+          </div>
+          <div class="col">
+            <label for="discountedPrice" class="form-label"
+              >السعر بعد التخفيض</label
+            >
+            <span> (اختياري)</span>
+            <input
+              type="number"
+              class="form-control"
+              id="discountedPrice"
+              formControlName="discountedPrice"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label for="nuOfLessons" class="form-label">عدد الحصص</label>
+            <span class="text-danger ms-2">*</span>
+            <input
+              type="number"
+              class="form-control"
+              id="nuOfLessons"
+              formControlName="nuOfLessons"
+              [class.is-invalid]="hasError('nuOfLessons')"
+            />
+          </div>
+          <div class="col">
+            <label for="image" class="form-label">الصورة</label>
+            <span class="text-danger ms-2">*</span>
+            <input
+              type="file"
+              class="form-control"
+              id="image"
+              formControlName="image"
+              [class.is-invalid]="hasError('image')"
+              (change)="onFileSelected($event, 'image')"
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          @if (loading) {
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          جار الاضافة... } @else {
+          <span>اضافة</span>
           }
-        </select>
-      </div>
+        </button>
+      </form>
     </div>
-
-    <div class="row mb-3">
-      <label for="description" class="form-label">الوصف
-      <textarea
-        class="form-control mt-2"
-        id="description"
-        formControlName="description"
-      ></textarea>
-      </label>
-    </div>
-    <!-- rich text editor -->
-
-    <div class="row mb-3">
-      <div class="col">
-        <label for="originalPrice" class="form-label">السعر الاصلي</label>
-        <input
-          type="number"
-          class="form-control"
-          id="originalPrice"
-          formControlName="originalPrice"
-        />
-      </div>
-      <div class="col">
-        <label for="discountedPrice" class="form-label"
-          >السعر بعد التخفيض</label
-        >
-        <span> (اختياري)</span>
-        <input
-          type="number"
-          class="form-control"
-          id="discountedPrice"
-          formControlName="discountedPrice"
-        />
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col">
-        <label for="nuOfLessons" class="form-label">عدد الحصص</label>
-        <input
-          type="number"
-          class="form-control"
-          id="nuOfLessons"
-          formControlName="nuOfLessons"
-        />
-      </div>
-      <div class="col">
-        <label for="image" class="form-label">الصورة</label>
-        <input
-          type="file"
-          class="form-control"
-          id="image"
-          formControlName="image"
-          (change)="onFileSelected($event, 'image')"
-        />
-      </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">
-      @if (loading) {
-      <span
-        class="spinner-border spinner-border-sm"
-        role="status"
-        aria-hidden="true"
-      ></span>
-      جار الاضافة... } @else {
-      <span>اضافة</span>
-      }
-    </button>
-  </form>
+  </div>
 </section>

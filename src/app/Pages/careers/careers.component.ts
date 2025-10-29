@@ -105,7 +105,6 @@ export class CareersComponent implements OnInit, AfterViewInit, OnDestroy {
       CV: this.cvFile,
       introVideo: this.introVideoFile,
       password: this.instructorForm.value.password,
-      confirmPassword: this.instructorForm.value.password,
     };
     console.log(registerForm);
     this.authService.registerInstructor(registerForm).subscribe({

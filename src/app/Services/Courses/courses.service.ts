@@ -15,7 +15,7 @@ export class CoursesService {
   // Course related methods
 
   getAllCourses(): Observable<any[]> {
-    return this.api.get<any[]>(`${this.endpoint}/all-courses`);
+    return this.api.get<any[]>(`${this.endpoint}`);
   }
 
   getCourseById(courseId: number): Observable<Course> {
@@ -36,7 +36,7 @@ export class CoursesService {
       course.certificateSerialNumber ? course.certificateSerialNumber : ''
     );
     formData.append('courseImage', course.courseImage, course.courseImage.name);
-    return this.api.post<NewCourse>(`${this.endpoint}/add-course`, formData);
+    return this.api.post<NewCourse>(`${this.endpoint}`, formData);
   }
 
   updateCourse(id: number, course: NewCourse): Observable<NewCourse> {
@@ -47,26 +47,16 @@ export class CoursesService {
     return this.api.delete<void>(`${this.endpoint}/${id}`);
   }
 
-  // Student related methods
-  getStudentCourses(studentId: number): Observable<Course[]> {
-    return this.api.get<Course[]>(`${this.endpoint}/enrolled-course/${studentId}`);
-  }
-
-  // Instructor related methods
-  getInstructorCourses(instructorId: string): Observable<Course[]> {
-    return this.api.get<Course[]>(`${this.endpoint}/owned-course/${instructorId}`);
-  }
+  
 
   getInstructorById(instructorId: number): Observable<any> {
     return this.api.get<any>(`${this.endpoint}/get-instructor/${instructorId}`);
   }
 
-  getStudentsByCourseId(courseId: number): Observable<any[]> {
-    return this.api.get<any[]>(`${this.endpoint}/get-students-by-course/${courseId}`);
-  }
+  
 
   // Category related methods
   getAllCategories(): Observable<string[]> {
-    return this.api.get<string[]>(`${this.categoryEndpoint}/all-categories`);
+    return this.api.get<string[]>(`${this.categoryEndpoint}`);
   }
 }

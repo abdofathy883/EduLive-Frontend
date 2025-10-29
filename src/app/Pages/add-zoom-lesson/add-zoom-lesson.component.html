@@ -1,72 +1,90 @@
 <section>
   @if (!status) {
-  <button class="btn btn-primary mt-3" (click)="connectZoomAccount()">
-    ربط حسابك ب Zoom
-  </button>
-  } @if (status) {
-  <h2>اضافة حصة جديدة عن طريق Zoom</h2>
+  <div class="connection-card">
+    <div class="connection-content">
+      <div class="meet-logo-container">
+        <img src="assets/zoom-logo.webp" class="zoom-logo" alt="">
+      </div>
 
+      <h3 class="connection-title">اربط حسابك بـ Zoom</h3>
+      <p class="connection-description">
+        لتتمكن من إنشاء حصص تعليمية مباشرة، يرجى ربط حسابك بحساب Zoom
+      </p>
+      <button class="btn-connect" (click)="connectZoomAccount()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 3h3v3M18 21h3v-3M3 18v3h3M3 6V3h3m13 4l-4 4M6 10l-4 4m14 0l-4-4M6 14l-4-4" stroke-linecap="round"/>
+        </svg>
+        <span>ربط الحساب الآن</span>
+      </button>
+    </div>
+  </div>
+} @if (status) {
   @if (Courses.length === 0) {
   <div class="alert alert-warning" role="alert">
     لا توجد دورات تعليمية متاحة. يرجى إضافة دورة قبل إضافة حصة.
   </div>
-  }
-  <form action="" class="mt-3" (Submit)="onSubmit()">
-    <div class="row mb-3">
-      <div class="col">
-        <label for="" class="form-label">الدورة التعليمية</label>
-        <select name="" id="" class="form-select">
-          <option selected disabled>اختر الدورة</option>
-          @for (course of Courses; track $index) {
-          <option value="{{ course.id }}">{{ course.title }}</option>
-          }
-        </select>
+}
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">اضافة حصة جديدة عن طريق Zoom</h5>
       </div>
-      <div class="col">
-        <label for="topic" class="form-label">عنوان الحصة</label>
-        <input type="text" class="form-control" id="topic" />
+      <div class="card-body">
+        <form [formGroup]="meetingForm" (Submit)="onSubmit()">
+          <div class="mb-3">
+            <label for="topic" class="form-label">عنوان الحصة</label>
+              <input type="text" class="form-control" id="topic" formControlName="topic" [class.is-invalid]="hasError('topic')"/>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">وصف الحصة</label>
+              <textarea class="form-control" id="description" rows="4" formControlName="description" [class.is-invalid]="hasError('description')" ></textarea>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="courseId" class="form-label">الدورة التعليمية</label>
+              <select name="courseId" id="courseId" class="form-select" formControlName="courseId" [class.is-invalid]="hasError('courseId')" >
+                <option selected disabled>اختر الدورة</option>
+                @for (course of Courses; track $index) {
+                <option value="{{ course.id }}">{{ course.title }}</option>
+                }
+              </select>
+            </div>
+            <div class="col">
+              <label for="studentId" class="form-label">الطالب</label>
+              <select id="studentId" class="form-select" formControlName="studentId" [class.is-invalid]="hasError('studentId')" >
+                <option selected disabled>اختر الطالب</option>
+                @for (student of students; track $index) {
+                <option value="{{ student.id }}">{{ student.name }}</option>
+                }
+              </select>
+            </div>
+          </div>
+      
+          <div class="row mb-3">
+            <div class="col">
+              <label for="duration" class="form-label">المدة</label>
+              <input type="number" class="form-control" id="duration" formControlName="duration" [class.is-invalid]="hasError('duration')" />
+            </div>
+            <div class="col">
+              <label for="startTime" class="form-label">وقت البدء</label>
+              <input type="datetime-local" class="form-control" id="startTime" formControlName="startTime" [class.is-invalid]="hasError('startTime')" />
+            </div>
+          </div>
+    
+      
+          <button class="btn btn-primary" (click)="onSubmit()">
+            @if (loading) {
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              >جار الاضافة...</span
+            >
+            } @else {
+            <span>اضافة حصة</span>
+            }
+          </button>
+        </form>
       </div>
     </div>
-
-
-
-    <div class="row mb-3">
-      <div class="col">
-        <label for="duration" class="form-label">المدة</label>
-        <input type="number" class="form-control" id="duration" />
-      </div>
-      <div class="col">
-        <label for="startTime" class="form-label">وقت البدء</label>
-        <input type="datetime-local" class="form-control" id="startTime" />
-      </div>
-      <div class="col">
-        <label for="studentId" class="form-label">الطالب</label>
-        <select id="studentId" class="form-select">
-          <option selected disabled>اختر الطالب</option>
-          @for (student of students; track $index) {
-          <option value="{{ student.id }}">{{ student.name }}</option>
-          }
-        </select>
-      </div>
-    </div>
-
-    <div class="row">
-      <label for="description" class="form-label">وصف الحصة
-        <textarea class="form-control mt-2" id="description" rows="3"></textarea></label>
-    </div>
-
-    <button class="btn btn-primary" (click)="onSubmit()">
-      @if (loading) {
-      <span
-        class="spinner-border spinner-border-sm"
-        role="status"
-        aria-hidden="true"
-        >جار الاضافة...</span
-      >
-      } @else {
-      <span>اضافة حصة</span>
-      }
-    </button>
-  </form>
   }
 </section>

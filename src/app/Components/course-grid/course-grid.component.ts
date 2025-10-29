@@ -4,6 +4,7 @@ import { CoursesService } from '../../Services/Courses/courses.service';
 import { AuthService } from '../../Services/Auth/auth.service';
 import { User } from '../../Models/User/user';
 import { Course } from '../../Models/Course/course';
+import { EnrollmentService } from '../../Services/enrollment/enrollment.service';
 
 @Component({
   selector: 'app-course-grid',
@@ -20,12 +21,13 @@ export class CourseGridComponent implements OnInit {
   courses: Course[] = [];
 
   constructor(
-    private courseService: CoursesService,
+    private enrollmentService: EnrollmentService,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
+    console.log(this.currentUser?.userId)
     this.loadCourses();
   }
 
@@ -36,7 +38,7 @@ export class CourseGridComponent implements OnInit {
     const isStudent = this.authService.isStudent();
     const isInstructor = this.authService.isInstructor();
     if (isStudent) {
-      this.courseService
+      this.enrollmentService
         .getInstructorCourses(this.currentUser?.userId)
         .subscribe({
           next: (response) => {
@@ -48,7 +50,7 @@ export class CourseGridComponent implements OnInit {
     }
 
     if (isInstructor) {
-      this.courseService
+      this.enrollmentService
         .getInstructorCourses(this.currentUser?.userId)
         .subscribe({
           next: (response) => {

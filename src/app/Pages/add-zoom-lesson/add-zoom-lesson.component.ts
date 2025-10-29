@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NewCourse } from '../../Models/Course/course';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ZoomService } from '../../Services/Zoom/zoom.service';
-import { CoursesService } from '../../Services/Courses/courses.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Services/Auth/auth.service';
 import { AuthZoomService } from '../../Services/Zoom/AuthZoom/auth-zoom.service';
+import { EnrollmentService } from '../../Services/enrollment/enrollment.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-zoom-lesson',
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './add-zoom-lesson.component.html',
   styleUrl: './add-zoom-lesson.component.css',
 })
@@ -26,7 +26,7 @@ export class AddZoomLessonComponent implements OnInit {
   constructor(
     private zoomAuthService: AuthZoomService,
     private zoomService: ZoomService,
-    private courseService: CoursesService,
+    private enrollmentService: EnrollmentService,
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router
@@ -74,7 +74,7 @@ export class AddZoomLessonComponent implements OnInit {
 
   loadNeededData() {
     this.instructorId = this.currentUser.userId;
-    this.courseService.getInstructorCourses(this.instructorId).subscribe({
+    this.enrollmentService.getInstructorCourses(this.instructorId).subscribe({
       next: (courses) => {
         this.Courses = courses;
       },
@@ -82,7 +82,7 @@ export class AddZoomLessonComponent implements OnInit {
         console.error('Error fetching courses:', error);
       },
     });
-    this.courseService.getStudentsByCourseId(this.Courses[0]?.id).subscribe({
+    this.enrollmentService.getStudentsByCourseId(this.Courses[0]?.id).subscribe({
       next: (students) => {
         this.students = students;
       },
@@ -121,7 +121,7 @@ export class AddZoomLessonComponent implements OnInit {
       topic: ['', [Validators.required]],
       description: [''],
       startTime: ['', [Validators.required]],
-      duration: [60, [Validators.required, Validators.min(15)]],
+      duration: [45, [Validators.required, Validators.min(15)]],
       courseId: ['', [Validators.required]],
       studentId: ['', [Validators.required]],
       instructorId: [this.instructorId, [Validators.required]],
@@ -129,9 +129,8 @@ export class AddZoomLessonComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.submitted = true;
-
     if (this.meetingForm.invalid) {
+      this.meetingForm.markAllAsTouched();
       return;
     }
     this.loading = true;
@@ -151,4 +150,8 @@ export class AddZoomLessonComponent implements OnInit {
       },
     });
   }
+  hasError(controlName: string): boolean {
+  const control = this.meetingForm.get(controlName);
+  return control ? control.invalid && control.touched : false;
+}
 }

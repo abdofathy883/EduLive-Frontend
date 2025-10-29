@@ -14,9 +14,15 @@ import { UpdateUserComponent } from "../update-user/update-user.component";
 })
 export class StudentAccountComponent implements OnInit{
   currentUser: any;
+  currentUserId: string = '';
   constructor(private authService: AuthService) {}
   ngOnInit(): void {
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
   }
 
 

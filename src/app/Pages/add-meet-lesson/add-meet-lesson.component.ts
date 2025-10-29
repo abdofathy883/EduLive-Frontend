@@ -19,6 +19,7 @@ export class AddMeetLessonComponent implements OnInit {
   students: any[] = [];
   Courses: any[] = [];
   instructorId: string = '';
+  currentUserId: string = '';
   currentUser: any;
   
   loading: boolean = false;
@@ -33,7 +34,12 @@ export class AddMeetLessonComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
     // this.getUserStatus();
     this.initializeForm();
     this.loadNeededData();

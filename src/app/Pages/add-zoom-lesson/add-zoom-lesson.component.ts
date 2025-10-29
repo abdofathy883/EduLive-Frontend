@@ -22,6 +22,7 @@ export class AddZoomLessonComponent implements OnInit {
   currentUser: any;
   students: any[] = [];
   status: boolean = localStorage.getItem('ZoomConnectionStatus') === 'true' ? true : false;
+  currentUserId: string = '';
 
   constructor(
     private zoomAuthService: AuthZoomService,
@@ -32,7 +33,12 @@ export class AddZoomLessonComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit() {
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
     // ✅ Check if this is a callback from Zoom OAuth
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');

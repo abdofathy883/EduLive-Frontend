@@ -22,6 +22,7 @@ export class UpdateUserComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   currentUser: any | null = null;
+  currentUserId: string = '';
   constructor(
     private authService: AuthService, 
     private fb: FormBuilder
@@ -29,7 +30,12 @@ export class UpdateUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
     this.patchValues();
   }
 

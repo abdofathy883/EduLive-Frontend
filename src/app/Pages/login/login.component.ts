@@ -54,8 +54,6 @@ export class LoginComponent implements OnInit {
       this.authService.Login(loginData).subscribe({
         next: (response) => {
           this.loading = false;
-          console.log(response);
-          console.log(`token from login: ${response.token}`);
           this.router.navigate(['/my-account']);
         },
         error: (error) => {

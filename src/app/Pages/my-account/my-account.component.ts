@@ -12,11 +12,17 @@ import { StudentAccountComponent } from '../student-account/student-account.comp
 export class MyAccountComponent implements OnInit {
   currentUser: any = null;
   isApproved: boolean = false;
+  currentUserId: string = '';
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
     if (this.currentUser.isApproved === true) {
       this.isApproved = true;
     }

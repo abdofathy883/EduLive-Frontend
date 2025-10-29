@@ -16,6 +16,7 @@ import { CourseReviewsComponent } from '../../Components/course-reviews/course-r
 export class SingleCourseComponent implements OnInit {
   paymentErrorMessage: string = '';
   paymentSuccessMessage: string = '';
+  currentUserId: string = '';
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -70,7 +71,12 @@ export class SingleCourseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentUser = this.authService.getCurrentUser();
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
     this.loadCourse();
   }
 

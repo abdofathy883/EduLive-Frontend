@@ -46,8 +46,8 @@ jobs:
         port: ${{ secrets.VPS_PORT }}
         script: |
           # Set proper permissions
-          sudo chown -R www-data:www-data /var/www/frontend
-          sudo chmod -R 755 /var/www/frontend
+          sudo chown -R www-data:www-data /var/www/frontend-out
+          sudo chmod -R 755 /var/www/frontend-out
           
           # Restart nginx
           sudo systemctl restart nginx

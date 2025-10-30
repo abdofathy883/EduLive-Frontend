@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   registrationForm!: FormGroup;
   registerFormData!: FormData;
   iti: any;
+  errorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -99,6 +100,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
         dateOfBirth: this.registrationForm.value.dateOfBirth,
       };
 
+      console.log('register object', registerData);
       this.authService.register(registerData).subscribe({
         next: (response) => {
           this.loading = false;
@@ -109,6 +111,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         error: (error) => {
           console.error('Registration failed:', error);
+          this.errorMessage == error.error;
           this.loading = false;
         },
       });

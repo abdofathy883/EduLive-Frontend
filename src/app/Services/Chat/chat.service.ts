@@ -2,17 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { ApiService } from '../api-service/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
   private hubConnection: signalR.HubConnection | undefined;
-  private readonly baseUrl: string = 'https://localhost:5153/chat';
+  private readonly baseUrl: string = 'chat';
 
   public messages$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
-  constructor(private http: HttpClient) { }
+  constructor(private api: ApiService) { }
 
   public startConnection(userToken: string) {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -43,7 +44,7 @@ export class ChatService {
   // }
 
   getInstructors() {
-    return this.http.get<any[]>(`${this.baseUrl}/instructors`);
+    return this.api.get<any[]>(`${this.baseUrl}/instructors`);
   }
 
   public onReceiveMessage(callback: (user: string, message: string) => void) {

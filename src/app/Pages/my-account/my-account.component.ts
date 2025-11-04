@@ -9,12 +9,21 @@ import { StudentAccountComponent } from '../student-account/student-account.comp
   templateUrl: './my-account.component.html',
   styleUrl: './my-account.component.css',
 })
-export class MyAccountComponent {
+export class MyAccountComponent implements OnInit {
   currentUser: any = null;
   isApproved: boolean = false;
   currentUserId: string = '';
 
   constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.authService.getById(this.currentUserId).subscribe({
+      next: (response) => {
+        this.currentUser = response;
+      }
+    })
+  }
 
   logOut() {
     this.authService.LogOut();

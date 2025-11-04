@@ -9,24 +9,12 @@ import { StudentAccountComponent } from '../student-account/student-account.comp
   templateUrl: './my-account.component.html',
   styleUrl: './my-account.component.css',
 })
-export class MyAccountComponent implements OnInit {
+export class MyAccountComponent {
   currentUser: any = null;
   isApproved: boolean = false;
   currentUserId: string = '';
 
   constructor(private authService: AuthService) {}
-
-  ngOnInit(): void {
-    this.currentUserId = this.authService.getCurrentUserId();
-    this.authService.getById(this.currentUserId).subscribe({
-      next: (response) => {
-        this.currentUser = response;
-      }
-    })
-    if (this.currentUser.isApproved === true) {
-      this.isApproved = true;
-    }
-  }
 
   logOut() {
     this.authService.LogOut();

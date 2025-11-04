@@ -10,6 +10,7 @@ import { AddZoomLessonComponent } from '../add-zoom-lesson/add-zoom-lesson.compo
 import { AddCourseComponent } from '../add-course/add-course.component';
 import { RouterLink } from '@angular/router';
 import { RouterOutlet } from '../../../../node_modules/@angular/router/router_module.d-BivBj8FC';
+import { User } from '../../Models/User/user';
 
 @Component({
   selector: 'app-instructor-account',
@@ -30,7 +31,7 @@ import { RouterOutlet } from '../../../../node_modules/@angular/router/router_mo
   styleUrl: './instructor-account.component.css',
 })
 export class InstructorAccountComponent implements OnInit {
-  currentUser: any;
+  currentUser!: User;
   currentUserId: string = '';
   constructor(private authService: AuthService) {}
   ngOnInit(): void {

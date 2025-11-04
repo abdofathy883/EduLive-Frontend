@@ -10,15 +10,15 @@ import { ReportsService } from '../../Services/reports/reports.service';
   styleUrl: './lesson-report.component.css',
 })
 export class LessonReportComponent implements OnInit {
-  currentUser!: User | null;
+  currentUser!: User;
   reports!: any[];
   isLoading: boolean = false;
   isStudent: boolean = false;
   isInstructor: boolean = false;
   currentUserId: string = '';
 
-  pageSize = 10;
-  currentPage = 1;
+  // pageSize = 10;
+  // currentPage = 1;
 
   constructor(
     private authService: AuthService, 
@@ -53,7 +53,7 @@ export class LessonReportComponent implements OnInit {
 
     }
     if (this.isStudent) {
-      this.reportService.getAllByStudentId(this.currentUser?.userId).subscribe({
+      this.reportService.getAllByStudentId(this.currentUser.userId).subscribe({
         next: (reports) => {
           this.reports = reports as any[];
           console.log('Student reports fetched successfully:', this.reports);
@@ -65,7 +65,7 @@ export class LessonReportComponent implements OnInit {
     }
 
     if (this.isInstructor) {
-      this.reportService.getAllByInstructorId(this.currentUser?.userId).subscribe({
+      this.reportService.getAllByInstructorId(this.currentUser.userId).subscribe({
         next: (reports) => {
           this.reports = reports as any[];
           console.log('Instructor reports fetched successfully:', this.reports);
@@ -77,22 +77,22 @@ export class LessonReportComponent implements OnInit {
   }
 }
 
-  changePage(page: number) {
-    this.currentPage = page;
-  }
+  // changePage(page: number) {
+  //   this.currentPage = page;
+  // }
 
-  pageNumbers(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
+  // pageNumbers(): number[] {
+  //   return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  // }
 
-  get pagedReports() {
-    const start = (this.currentPage - 1) * this.pageSize;
-    return this.reports.slice(start, start + this.pageSize);
-  }
+  // get pagedReports() {
+  //   const start = (this.currentPage - 1) * this.pageSize;
+  //   return this.reports.slice(start, start + this.pageSize);
+  // }
 
-  get totalPages() {
-    return Math.ceil(this.reports.length / this.pageSize);
-  }
+  // get totalPages() {
+  //   return Math.ceil(this.reports.length / this.pageSize);
+  // }
 
   submit() {
     console.log('user role:', this.currentUser?.roles[0]);

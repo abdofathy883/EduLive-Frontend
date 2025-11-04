@@ -25,7 +25,7 @@ import { ApiService } from '../api-service/api.service';
 export class AuthService {
   private endpoint = 'auth';
   private readonly tokenKey = 'auth_token';
-  private readonly userIdKey = 'current_user';
+  private readonly userIdKey = 'user_Id';
   constructor(private router: Router, private api: ApiService) {
     this.initializeAuthState();
   }
@@ -142,7 +142,7 @@ export class AuthService {
   }
 
   getCurrentUserId(): string {
-    let userId = localStorage.getItem('user_Id');
+    let userId = localStorage.getItem(this.userIdKey);
     if (!userId) {
       return '';
     }

@@ -82,7 +82,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSubmit() {
-    // debugger;
+    debugger;
     this.loading = true;
     if (this.registrationForm.invalid) {
       this.loading = false;

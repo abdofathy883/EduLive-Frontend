@@ -1,5 +1,5 @@
-@if (currentUser.roles?.[0] === 'Instructor') {
+@if (currentUser && currentUser.roles?.[0] === 'Instructor') {
 <app-instructor-account></app-instructor-account>
-} @if (currentUser.roles?.[0] === 'Student') {
+} @if (currentUser && currentUser.roles?.[0] === 'Student') {
 <app-student-account></app-student-account>
 }
